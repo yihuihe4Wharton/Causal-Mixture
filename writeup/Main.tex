@@ -357,7 +357,7 @@ In some cases, we may not be aware of $\mathcal{D}$ and it is hard to set a reas
 
 \section{Methods}\label{sec:setup}
 \begin{assumption}\label{ass:1}
-(i) Without policy intervention, $X \in R^{k_x}$, $W \in R^{k_w}$ and $Y \in R^{k_y}$ are continuously distributed. (ii) $Y(w)\perp W\mid X$.
+(i) Without policy intervention, $X \in R^{k_x}$, $W \in R^{k_w}$ and $Y \in R^{k_y}$ are continuously distributed. (ii) $\{Y(\mathbf{w})\}_{\mathbf{w}}\perp W\mid X$.
 \end{assumption}
 \begin{remark}
 In Pearl's model, we can view this assumption as: (i) The structural equation model is $X = f_X(U_X)$, $W = f_W(X, U_W)$ and $Y = f_Y (W, X, U_Y )$, where  $U_{X}$, $U_{W}$ and  $U_{Y}$  are exogenous random variables. $U_{W}$ is independent of $ U_{Y}$, and $U_{X}$ is independent of $ U_{Y}$ or $U_{W}$. (ii) The policy of interest only affect $U_{W}$, keeping $U_{X}$ and $ U_{Y}$ constant.
