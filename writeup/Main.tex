@@ -1,0 +1,684 @@
+\documentclass[11pt]{article}
+\usepackage{smile}
+
+%\setlength{\oddsidemargin}{0.25in}
+%\setlength{\textwidth}{6in}
+%\setlength{\topmargin}{0.5in}
+%\setlength{\textheight}{9in}
+
+% === Page Layout ===
+%\usepackage{abstract}
+%\usepackage{authblk}
+\usepackage{fullpage}
+%\usepackage[margin=1in,bottom=1.2in]{geometry}
+\usepackage{lscape}
+\usepackage{bigints}
+% === Boxes ===
+\usepackage{framed}
+\usepackage{mdframed}
+% === Numbering ===
+\usepackage{enumerate}
+\usepackage[inline]{enumitem}
+% === Fonts ===
+%\usepackage[urw-garamond]{mathdesign}
+\usepackage[T1]{fontenc}
+\usepackage{moresize}
+\usepackage{bm}
+\usepackage{bbm}
+\usepackage{dsfont}
+%\usepackage{mathabx}
+% === Mathematics ===
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{stmaryrd}
+\usepackage{array}
+\usepackage{mathrsfs}
+\usepackage{mathtools} % \prescript
+%\usepackage{mathdesign}
+\usepackage{extarrows}
+\usepackage{stackrel}
+\usepackage{relsize,exscale}
+\usepackage{scalerel}
+% === Paragraph Formatting ===
+%\usepackage{setspace}
+\usepackage[nodisplayskipstretch]{setspace}
+%\usepackage{indentfirst}
+% === Color ===
+\usepackage{color}
+\usepackage[usenames,dvipsnames]{xcolor}
+% === Toys ===
+\usepackage{cancel}
+\usepackage{soul}
+\usepackage{undertilde}
+%\usepackage{ulem}
+\usepackage{xfrac}
+\usepackage{siunitx}
+% === Figures ===
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{rotating}
+%\usepackage{subfig}
+\usepackage{subcaption}
+\usepackage{overpic}
+\usepackage[all]{xy}
+% === MetaPost ===
+\DeclareGraphicsRule{*}{mps}{*}{}
+% === Tikz ===
+\usepackage{tikz}
+\usetikzlibrary{arrows,matrix,positioning,calc,automata,patterns}
+% === Tables ===
+\usepackage{booktabs}
+\usepackage{dcolumn}
+\usepackage{multirow}
+%\usepackage{slashbox}
+\usepackage{diagbox}
+\usepackage{tabularx}
+% === Source Code ===
+\usepackage{verbatim}
+\usepackage{listings}
+\usepackage[ruled,vlined]{algorithm2e}
+%\usepackage{algorithm}
+%\usepackage{algpseudocode}
+\usepackage{fancyvrb}
+% === Links ===
+\usepackage{hyperref}
+%\usepackage{url}
+% === Bibliography ===
+\usepackage[round]{natbib}
+\usepackage{sectsty}
+
+
+\hypersetup{
+    bookmarks=true,         % show bookmarks bar?
+    unicode=false,          % non-Latin characters in Acrobat’s bookmarks
+    pdftoolbar=true,        % show Acrobat’s toolbar?
+    pdfmenubar=true,        % show Acrobat’s menu?
+    pdffitwindow=false,     % window fit to page when opened
+    pdfstartview={FitH},    % fits the width of the page to the window
+    pdftitle={My title},    % title
+    pdfauthor={Author},     % author
+    pdfsubject={Subject},   % subject of the document
+    pdfcreator={Creator},   % creator of the document
+    pdfproducer={Producer}, % producer of the document
+    pdfkeywords={key1, key2}, % list of keywords
+    pdfnewwindow=true,      % links in new PDF window
+    colorlinks=true,        % false: boxed links; true: colored links
+    linkcolor=blue,         % color of internal links (change box color with linkbordercolor)
+    citecolor=blue,         % color of links to bibliography
+    filecolor=blue,         % color of file links
+    urlcolor=cyan           % color of external links
+}
+
+\def\scaleint#1{\vcenter{\hbox{\scaleto[3ex]{\displaystyle\int}{#1}}}}
+
+\usepackage{stackengine}
+\stackMath
+\newcommand\tenq[2][1]{%
+\def\useanchorwidth{T}%
+\ifnum#1>1%
+\stackunder[0pt]{\tenq[\numexpr#1-1\relax]{#2}}{\!\scriptscriptstyle\thicksim}%
+\else%
+\stackunder[1pt]{#2}{\!\scriptstyle\thicksim}%
+\fi%
+}
+
+\makeatletter
+\DeclareRobustCommand\widecheck[1]{{\mathpalette\@widecheck{#1}}}
+\def\@widecheck#1#2{%
+    \setbox\z@\hbox{\m@th$#1#2$}%
+    \setbox\tw@\hbox{\m@th$#1%
+       \widehat{%
+          \vrule\@width\z@\@height\ht\z@
+          \vrule\@height\z@\@width\wd\z@}$}%
+    \dp\tw@-\ht\z@
+    \@tempdima\ht\z@ \advance\@tempdima2\ht\tw@ \divide\@tempdima\thr@@
+    \setbox\tw@\hbox{%
+       \raise\@tempdima\hbox{\scalebox{1}[-1]{\lower\@tempdima\box
+\tw@}}}%
+    {\ooalign{\box\tw@ \cr \box\z@}}}
+\makeatother
+
+%\theoremstyle{remark}
+
+\def\given{\,|\,}
+%\def\given{\mid}
+\def\biggiven{\,\big{|}\,}
+\def\Biggiven{\,\Big{|}\,}
+\def\tr{\mathop{\text{tr}}\kern.2ex}
+\def\tZ{{\tilde Z}}
+\def\tX{{\tilde X}}
+\def\tY{{\tilde Y}}
+\def\tR{{\tilde r}}
+\def\tU{{\tilde U}}
+\def\tV{{\tilde V}}
+\def\tW{{\tilde W}}
+\def\tN{{\tilde N}}
+\def\tT{{\tilde T}}
+\def\P{{\mathrm P}}
+\def\Q{{\mathrm Q}}
+\def\U{{\mathrm U}}
+\def\E{{\mathrm E}}
+\def\R{{\mathbbm R}}
+\def\Z{{\mathbbm Z}}
+\def\N{{\mathbbm N}}
+\def\C{{\mathbbm C}}
+\def\cov{{\rm Cov}}
+%\def\T{{ \mathrm{\scriptscriptstyle T} }}
+%\def{\npreceq}{\not\preceq}
+\def\d{{\mathrm d}}
+\def\cI{{\mathcal I}}
+
+\newcommand{\Zeta}{\Delta_0}
+
+\newcommand{\sfi}{\mathsf{i}}
+\newcommand{\ac}{\mathrm{ac}}
+\newcommand{\sgn}{\mathrm{sgn}}
+%\newcommand{\sign}{\mathrm{sign}}
+\newcommand{\dCov}{\mathrm{dCov}}
+\newcommand{\RdCov}{\mathrm{RdCov}}
+\newcommand{\HdCov}{\mathrm{HdCov}}
+\newcommand{\Pos}{\mathrm{Pos}}
+\newcommand{\Neg}{\mathrm{Neg}}
+\newcommand{\PosNeg}{\mathrm{PosNeg}}
+\renewcommand{\Pr}{\mathrm{P}}
+\newcommand{\rank}{\mathrm{rank}}
+\newcommand{\dpt}{$\cdot$}
+\newcommand{\textand}{,~}
+\newcommand{\card}{\mathrm{card}}
+\renewcommand{\vec}{\mathrm{vec}}
+\newcommand{\F}{\mathrm{F}}
+\newcommand{\nuc}{\star}
+\newcommand{\op}{\mathrm{op}}
+\newcommand{\TV}{\mathrm{TV}}
+\newcommand{\KL}{\mathrm{KL}}
+\newcommand{\HL}{\mathrm{HL}}
+\newcommand{\Hell}{\mathrm{Hell}}
+\newcommand{\Kolm}{\mathrm{Kolm}}
+\newcommand{\Wass}{\mathrm{Wass}}
+%\newcommand{\mDe}{\fM\Delta}
+%\newcommand{\wmDe}{\widehat{\fM\Delta}}
+%\DeclareMathOperator{\indep}{\rotatebox[origin=c]{90}{$\models$}}
+\newcommand{\indep}{\perp \!\!\!\perp}
+%\newcommand{\m}{\mkern-1mu}
+%\newcommand{\dm}{\mkern-2mu}
+%\newcommand{\muad}{\mkern-18mu}
+\newcommand{\Rot}{\mathsf{Rot}}
+\newcommand{\Arc}{\mathsf{Arc}}
+\newcommand{\mbinom}{\binom}
+\newcommand{\zahl}[1]{\llbracket #1\rrbracket}
+\newcommand\yestag{\addtocounter{equation}{1}\tag{\theequation}}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{  \centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{ \raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{d}[1]{D{.}{.}{#1}}
+\newcolumntype{H}{>{\setbox0=\hbox\bgroup}c<{\egroup}@{}}
+\newcolumntype{Z}{>{\setbox0=\hbox\bgroup}c<{\egroup}@{\hspace*{-\tabcolsep}}}
+\newcolumntype{b}{X}
+\newcolumntype{s}{>{\hsize=.5\hsize}X}
+\def\checkmark{\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;}
+%\newcommand{\cmark}{\ding{51}}
+%\newcommand{\xmark}{\ding{55}}
+\newcommand{\cmark}{Yes}
+\newcommand{\xmark}{No}
+\newcommand{\n}{^{(n)}}
+
+\def\pms{\mspace{-1mu}{\scriptscriptstyle{\pm}}}
+
+\numberwithin{equation}{section}
+%\theoremstyle{plain}
+\newtheorem{condition}{Condition}[section]
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{assumption}{Assumption}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{innercustomgeneric}{\customgenericname}
+\providecommand{\customgenericname}{}
+\newcommand{\newcustomtheorem}[2]{%
+  \newenvironment{#1}[1]
+  {%
+   \renewcommand\customgenericname{#2}%
+   \renewcommand\theinnercustomgeneric{##1}%
+   \innercustomgeneric
+  }
+  {\endinnercustomgeneric}
+}
+\newcustomtheorem{customdefinition}{Definition}
+\newcustomtheorem{customdefinitions}{Definitions}
+\newcustomtheorem{customtheorem}{Theorem}
+\newcustomtheorem{customassumption}{Assumption}
+\newcustomtheorem{customlemma}{Lemma}
+\newcustomtheorem{customexample}{Example}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{example}{Example}[section]
+\newtheorem{remark}{Remark}[section]
+
+\usepackage{enumitem}
+\makeatletter
+\newcommand{\mylabel}[2]{#2\def\@currentlabel{#2}\label{#1}}
+\makeatother
+
+\setcounter{tocdepth}{4}
+\setcounter{secnumdepth}{4}
+
+\graphicspath{{./fig3/}}
+
+%\onehalfspacing
+%\doublespacing
+\renewcommand{\baselinestretch}{1.1}
+%\setstretch{1.1}
+
+\newcommand{\nb}[1]{{\color{red}{#1}}}
+\newcommand{\hf}[1]{{\color{magenta}#1}}
+
+\allowdisplaybreaks
+
+\begin{document}
+
+\setlength{\abovedisplayskip}{5pt}
+\setlength{\belowdisplayskip}{5pt}
+\setlength{\abovedisplayshortskip}{5pt}
+\setlength{\belowdisplayshortskip}{5pt}
+\hypersetup{colorlinks,breaklinks,urlcolor=blue,linkcolor=blue}
+
+
+
+\title{\LARGE Toward efficient matching and weighting for estimating the causal effects of multiple continuous exposures}
+
+\author{Yihui He, Xiao Wu}
+
+\date{\today}
+
+\maketitle
+
+\vspace{-1em}
+
+\begin{abstract}
+
+\end{abstract}
+
+{\bf Keywords}: bias-corrected matching, continuous treatment, double machine learning, observational studies, semiparametric
+
+
+\section{Introduction}\label{sec:intro}
+
+Climate change is and will remain the most important threat to human health and welfare. As emissions continue to drive temperatures higher, climate threats (e.g., wildfires, heat waves, hurricanes, etc.) increase in frequency and intensity. These changes in climate-relevant exposures are linked to numerous adverse health outcomes and will continue to negatively impact human health. Compound climate events, significant impacts resulting from the combination of interacting physical processes across multiple spatial and temporal scales, frequently give rise to floods, wildfires, heat waves, and droughts. To date, climate change and health analyses have focused primarily on one exposure at a time, which can underestimate the risk because the processes that cause extreme events are often interrelated and dependent on spatial and/or temporal factors. For example, the co-occurrence of heat waves and droughts is likely, as they are frequently connected at a physical level, with feedback loops between processes that can intensify both the drying and heating effects, leading to prolonged periods of hot and dry conditions. Health analyses focusing on a single climate-related exposure can substantially underestimate the risks associated with certain extremes if the impacts rely on multiple dependent climate threats. Adopting a multi-exposure approach, thus, is crucial to appropriately assess the impacts of climate extremes and to design effective adaptation and mitigation strategies.
+
+%Our article is based on the traditional setting where there're outcome variable $Y$, exposure variable $W$ and covariates $X$. This article develop some methods to do causal inference with i.i.d. observational data $\{(Y_i,W_i,X_i)\}_{i=1}^N$.
+
+Despite the demand from emerging climate change and health research, there is a lack of statistical and machine learning methodology tools to quantify the causal effects of multiple climate-relevant exposures. In most of the causal inference literature, the exposure of interest is often set as a univariate variable, either binary- or continuous-valued \citep{rosenbaum1983central,hirano2004propensity}. The only exceptions are \cite{williams2020causal} and \cite{nethery2021evaluation}, who proposed matching approaches in the context of multivariate continuous exposures: one relies on multivariate generalized propensity score (mvGPS) and the other implements matching on all covariates directly. However, neither of them showed formal theoretical results for their proposed matching estimators. 
+
+In this article, we develop causal inference approaches to estimate the causal exposure-response relationship with theoretical guarantees. The main theoretical analyses focus on revisiting and extending the results of bias-corrected matching and double machine learning with univariate binary treatment for average treatment effect estimation \citep{abadie2011bias, chernozhukov2018double}. 
+Specifically, we propose two bias-corrected matching estimators: the first one uses bias-corrected matching on all covariates, while the second one uses bias-corrected matching on estimated mvGPS, and both estimators have a random-forest mutation. Two estimators are based on debiased machine learning \citep{chernozhukov2018double}. In the first one, we regress $Y$ on $(W,X)$, while in the second one, we regress $Y$ on $W$ and the estimated mvGPS. 
+
+We use bias-corrected matching because it is a nonparametric method with root-N consistency, and it can avoid the problem of extreme value of the estimated mvGPS in weighting methods. Debiased machine learning is also a nonparametric method with root-n consistency, and we can improve the stability of the estimator against the extreme value of the estimated mvGPS by using the density ratio estimator in \cite{lin2023estimation}. The idea of propensity score matching is used because propensity score matching leads to a variance reduction in the estimator, which is not shared by any other method, as in \cite{abadie2016matching}. In our data simulations, we make comparisons among the four estimators and the TMLE estimator in \cite{mccoy2023semi}. 
+
+The proposed method is significant for the field of climate change and health. Although continuous causal inference is increasingly common in climate change research, our methods are among the earliest literature to discuss multivariate, potentially high-dimensional, exposure in a nonparametric or semiparametric model. Indeed, we are always exposed to a mixture of exposures that jointly influence our health in a non-additive way. For example, heat waves, wildfires, and droughts may well happen simultaneously, and synergize or antagonize the effect of one another in a complex physical process. %However, for a policy that reduces the concentration of the pollutants simultaneously, most epidemiological researches nowadays, such as \cite{xiao2021cadmium} and \cite{meng2021short}, still simply add up the effect of each pollutant's reduction to estimate the overall effect of the policy. 
+Our methods can help researchers better deal with the non-additive non-linear effect of multivariate continuous exposures. %Another example is in medicine field. Chemicals in our body may also jointly influence our health in a non-additive way, which fits our model.
+
+%We will apply our method to the medical research by Leng's lab. Suppose the medicine treatment mainly changes the concentration of some known chemicals in our body. Taking each person coming to do health examination as a unit, we can set the levels of these mediating chemicals as $W$, set an indicator of the overall health condition as $Y$, and set covariates, such as some chemicals not influenced by the medicine and something like living habits and living environment, as $X$. Based on observational data of the variables above, we can predict how effective a medicine is according to its intensity on mediating chemicals.
+
+This article is organized as follows. In Section 2 we formally write the basic assumptions of our method. In Section 3 we describe the procedure and the theoretical properties of our estimators, which is the main analysis part of the article. In Section 4 we do data simulations under the settings of \cite{mccoy2023semi} to see the practical performance of our methods and traditional TMLE methods. In Section 5 we apply our methods to the data of Leng and output the dose-response curve of the medicine. In Section 6 we conclude our findings and make some discussions.
+
+
+\section{Problem Setup}
+In this article, we set the exposure variable $W$ as a multivariate continuous random vector of the levels of the mediator variables between policy treatment and outcomes of interest. For example, when studying climate policy, the indices of climate change risks, such as floods and wildfire risks, can be set as the exposure variable \citep{lewis2023characterizing}. We also set a continuous or binary outcome $Y$ and a set of covariates $X$ are measured for $N$ randomly samples.
+%Also, in studying the medicine effect, the concentration of the chemicals influenced by the medicine can be set as the exposure variable.
+%Compared with traditional causal models, under such a causal model, we can not only interpret the effect of a past treatment, but also predict the effect of a future treatment. In many cases, a new treatment be different from the old one in its intensity, and only analyzing the effect of the old one may have little contribution to the evaluation of the new one. 
+We are interested in the dose-response curve of the treatment intensity on a continuous scale. From the curve, we can see how the effect of the treatment varies with its expected influence on the mediating variables. 
+
+
+Following \cite{pearl2000models}, we set the non-parametric structural equation model as follows: 
+\begin{align}
+    X = f_X(U_X);\ W = f_W(X, U_W );\ Y = f_Y (W, X, U_Y )
+\end{align} 
+where  $U_{X}$, $U_{W}$ and  $U_{Y}$  are exogenous random variables such that  $U_{W}$ is independent of $ U_{Y}$, and $U_{X}$ is independent of $ U_{Y}$ or $U_{W}$. In our setting, the treatment only influences $U_W$, keeping $U_{X}$ and $U_{Y}$ constant. We define the potential outcome as
+\begin{equation}
+    Y(\mathbf{w}) = f_Y (\mathbf{w}, X, U_Y).
+\end{equation}
+
+Suppose the policy turns the exposure variable of each treated unit from W to $W^{\mathbf{d}}=T(W;\mathbf{d})$, where T is an operator and $\mathbf{d}$ is a vector of the intensity of the policy. For example, an air-quality improvement policy may have the following influence on the exposure variable:
+\begin{align}
+    T_1(W;\mathbf{d})&=W-\mathbf{d};\\
+    T_2(W;\mathbf{d})&=(W_1(1-d_1),\cdots, W_{k_w}(1-d_{k_w})).
+\end{align}
+Suppose the treatment is conducted on a unit $i$ that $(W_i,X_i)\in\mathcal{D}_0$, where $\mathcal{D}_0$ is a known region. We then consider $E[Y(T(W;\mathbf{d}))-Y\mid (W,X)\in\mathcal{D}_0]$ as the causal effect of the treatment with intensity $\mathbf{d}$. When we construct the dose-response curve, we keep the function $T$ constant and estimate the causal effect corresponding to treatment with different parameter $d$.
+
+Extended from \cite{munoz2012population}, the main estimand in our analysis is
+\begin{align}
+    \theta(\mathbf{d})=\E[Y(T(W;\mathbf{d}))-Y\mid (W,X)\in \mathcal{D}_0] 
+\end{align}
+For simplicity, we'll substitute $\theta$ for $\theta(\mathbf{d})$ and substitute $T(W)$ for $T(W;\mathbf{d})$ below when we fix the value of $\mathbf{d}$ and calculate $\theta(\mathbf{d})$.
+
+In some cases, we may not be aware of $\mathcal{D}$ and it is hard to set a reasonable $\mathcal{D}_0$, and there is an empirical way to set $\mathcal{D}_0$. Inspired by \cite{mccoy2023semi}, we can use the probability density ratio estimator in \cite{lin2023estimation} to estimate $\frac{p(W=\mathbf{w},X=\mathbf{x})}{p(W=T(\mathbf{w};\mathbf{d}),X=\mathbf{x})}$ and $\frac{p(W=T(\mathbf{w};\mathbf{d}),X=\mathbf{x})}{p(W=\mathbf{w},X=\mathbf{x})}$. We suggest setting $\mathcal{D}_0$ as a subset of the region where the two probability density ratio estimators are both less than 50.
+
+\section{Methods}\label{sec:setup}
+\begin{assumption}\label{ass:1}
+(i) Without policy intervention, $X \in R^{k_x}$, $W \in R^{k_w}$ and $Y \in R^{k_y}$ are continuously distributed. (ii) The structural equation model is $X = f_X(U_X)$, $W = f_W(X, U_W)$ and $Y = f_Y (W, X, U_Y )$, where  $U_{X}$, $U_{W}$ and  $U_{Y}$  are exogenous random variables. $U_{W}$ is independent of $ U_{Y}$, and $U_{X}$ is independent of $ U_{Y}$ or $U_{W}$. (iii) The policy of interest only affect $U_{W}$, keeping $U_{X}$ and $ U_{Y}$ constant.
+\end{assumption}
+
+\begin{assumption}\label{ass:2}
+(i) Let the support of (W,X) be $\mathcal{D}$. $\mathcal{D}$ is a Cartesian product of compact intervals; (ii) The population treated by the policy are the units whose $(W_i,X_i)$ are in a known region $\mathcal{D}_0\subset\mathcal{D}$; (iii) $(W,X) \in \mathcal{D}_0\Rightarrow (T(W;d),X)\in \mathcal{D}$; (iv) The transformation from $(W,X)$ to $(T(W;\mathbf{d}),X)$ is a bijection from $\mathcal{D}_0$ to another region $\mathcal{D}_1$.
+\end{assumption}
+
+\begin{remark} Assumption \ref{ass:2} (i) is made to ensure the properties of series regression. This assumption is quite technical, so our results may still be valid even if it's violated.
+\end{remark}
+
+We define the multivariate generalized propensity score (mvGPS) as follows:
+\begin{align}
+    e(\mathbf{w},\mathbf{x}) &= p(W=\mathbf{w}|X=\mathbf{x})
+\end{align}
+As in regular causal inference, we make the overlap assumption:
+
+\begin{assumption}\label{ass:3}
+$e(\mathbf{w},\mathbf{x})>\eta$ holds for any $(\mathbf{w},\mathbf{x}) \in \mathcal{D}$, where $\eta>0$ is an absolute constant.
+\end{assumption}
+
+\begin{remark} 
+Under Assumption \ref{ass:3}, $\mathcal{D}$ is of bounded measure. Therefore, it's important to make Assumption \ref{ass:2} (ii) in order to avoid the condition that $(T(W;d),X) \notin \mathcal{D}$.
+\end{remark}
+
+\begin{assumption} \label{ass:4}
+Let $\mu(\mathbf{w},\mathbf{x})=\mathbb{E}\left[Y|W=\mathbf{w}, X=\mathbf{x}\right]$  and  $\sigma^{2}(\mathbf{w},\mathbf{x})=\mathbb{E}\left[\left(Y-\mu(\mathbf{w},\mathbf{x})\right)^{2} \mid W=\mathbf{w} ,X=\mathbf{x}\right]$. Then, (i) $\mu(\mathbf{w},\mathbf{x})$  and  $\sigma^{2}(\mathbf{w},\mathbf{x})$ are Lipschitz continuous in $\mathcal{D}$, (ii)  $\mathbb{E}[(Y(\mathbf{w}))^{4}|X=\mathbf{x}] \leq C$  for some finite  C, for almost all $\mathbf{x}$, and (iii)  $\sigma^{2}(\mathbf{w},\mathbf{x})$  is bounded away from zero.
+\end{assumption}
+\section{Theory}\label{sec:theory}
+In this section, we fix $\mathbf{d}$ and gives our estimators to estimate $\theta(\mathbf{d})$. For simplicity, we substitute $\theta$ for $\theta(\mathbf{d})$ and substitute $T(W)$ for $T(W;\mathbf{d})$. The following lemma is the foundation of our identification of $\theta$:
+\begin{lemma} \label{lem:identification}
+Suppose $(\tilde{W},\tilde{X})$ is of the same distribution of $(W,X)$. Under Assumption \ref{ass:1} (i), (ii) and Assumption \ref{ass:2} (iv), we have
+\begin{align}
+&\theta=\E\left[\E\left[Y|W=T(\tilde{W}), X=\tilde{X}\right]|(\tilde{W},\tilde{X}) \in \mathcal{D}_0\right]-\E\left[Y|(W,X)\in \mathcal{D}_0\right]\label{iden_1}\\
+&\theta=\E\left[Y\frac{e(T^{-1}(W),X)}{e(W,X)}|(W,X) \in \mathcal{D}_1\right]-\E\left[Y|(W,X) \in \mathcal{D}_0\right]\label{iden_2}\\
+&\theta=\E\left[\E\left[Y|W=T(\tilde{W}),\frac{e(T^{-1}(W),X)}{e(W,X)}=\frac{e(\tilde{W},\tilde{X})}{e(T(\tilde{W}),\tilde{X})}\right]\mid (\tilde{W},\tilde{X})\in\mathcal{D}_0\right]-\E\left[Y|(W,X) \in \mathcal{D}_0\right]\label{iden_3}
+\end{align}
+\end{lemma}
+\begin{remark}
+    The first formula is the intuition of the matching estimator on all covariates; The second formula is the intuition of the weighting estimator; The third formula is the intuition of the matching estimator on mvGPS. The three types of estimators, combined with the imputation estimator of $\theta$, lead to the main results in our article.
+\end{remark}
+According to the conditional term in the third formula above, we define a function $r(*): \mathcal{D}_1\to \mathbb{R}$ as
+\begin{align}
+ r(\mathbf{w},\mathbf{x})=\frac{e(T^{-1}(\mathbf{w}),\mathbf{x})}{e(\mathbf{w},\mathbf{x})}.
+\end{align}
+Similar to \cite{munoz2012population}, we can derive the efficient influence curve of $\theta$ as in the following lemma.
+\begin{lemma}\label{lem:efficient}
+    Let $\xi_i(w,x)=\ind((w,x)\in\mathcal{D}_i)$, the efficient curve of $\theta$ is 
+    \begin{align}
+        D(P)(O)=\frac{(\mu(T(W),X)-\mu(W,X)-\theta)\xi_0(W,X)+(Y-\mu(W,X))(r(W,X)\xi_1(W,X)-\xi_0(W,X))}{P((W,X)\in\mathcal{D}_0)},
+    \end{align}
+    and the efficiency bound in the estimation of $\theta$ is 
+    \begin{align*}
+        &\sigma^2=E\left[D(P)(O)^2\right]\\
+        =&\frac{\E\left[((\mu(T(W),X)-\mu(W,X))-\theta)^2\mid (W,X)\in\mathcal{D}_0\right]}{P((W,X)\in\mathcal{D}_0)}\\&+\frac{\E\left[\sigma^2(W,X)(r(W,X)\xi_1(W,X)-\xi_0(W,X))^2\right]}{P((W,X)\in\mathcal{D}_0)^2}\\
+        =&\frac{\E\left[((\mu(T(W),X)-\mu(W,X))-\theta)^2\mid (W,X)\in\mathcal{D}_0\right]}{P((W,X)\in\mathcal{D}_0)}\\&+\frac{\E\left[\sigma^2(W,X)r^2(W,X)\mid (W,X)\in\mathcal{D}_1\right]\P((W,X)\in\mathcal{D}_1)}{P((W,X)\in\mathcal{D}_0)^2}\\&+\frac{\E\left[\sigma^2(W,X)\mid (W,X)\in\mathcal{D}_0\right]}{P((W,X)\in\mathcal{D}_0)}\\&-\frac{2\E\left[\sigma^2(W,X)r(W,X)\mid (W,X)\in\mathcal{D}_0\cap \mathcal{D}_1\right]P((W,X)\in\mathcal{D}_0\cap \mathcal{D}_1)}{P((W,X)\in\mathcal{D}_0)^2}
+    \end{align*}
+\end{lemma}
+
+\subsection{Bias-corrected matching}
+Let $\mathcal{J}_{M}(i)$ represent the index set of the $M$ nearest matches $(W_j,X_j)$ of the unit $(T(W_i),X_i)$, among the units whose $(W,X)\in\mathcal{D}_1$. In other words, define 
+\begin{align*}
+&\mathcal{J}_{M}(i):=\notag\\
+& \Big\{j: (W_j,X_j)\in\mathcal{D}_1,\sum_{k: (W_k,X_k)\in\mathcal{D}_1} \ind\Big(\left\|(T(W_i),X_i)-(W_k,X_k)\right\| \leq\left\|(T(W_i),X_i)-(W_j,X_j)\right\|\Big) \leq M\Big\}.
+\end{align*}
+Furthermore, introduce 
+\[
+K_{M}(\cdot):\Big\{i|(W_i,X_i)\in\mathcal{D}_1\Big\}\rightarrow \mathbb{N}
+\]
+to be the number of matched times of unit $i$, i.e.,
+\begin{align*}
+&K_{M}(i):=\notag\\
+&\sum_{j:(W_j,X_j)\in \mathcal{D}_0} \ind\left(\sum_{k:(W_k,X_k)\in \mathcal{D}_1}\ind\Big(\left\|(T(W_j),X_j)-(W_k,X_k)\right\| \leq\left\|(T(W_j),X_j)-(W_i,X_i)\right\|\Big)\leq M\right).
+\end{align*}
+Then, we can define the bias-corrected estimator as follows:
+\begin{align*}
+    \widehat{\theta}_{bc}&=\frac{1}{N_0}\sum_{p=1}^2\sum_{i \in \mathcal{D}_0\cap\mathcal{E}_0}\frac{1}{M}\sum_{j\in \mathcal{J}_M(i)}(\widehat{\mu}(T(W_i),X_i)+Y_{j}-\widehat{\mu}(W_{j},X_{j})-Y_i)\\
+    &=\frac{1}{N_0}\sum_{p=1}^2\left(\sum_{i \in \mathcal{D}_0\cap\mathcal{E}_0}(\widehat{\mu}(T(W_i),X_i)-Y_i)+\frac{1}{N_0}\sum_{j \in \mathcal{D}_1\cap\mathcal{E}_1}\frac{K_M(j)}{M}(Y_{j}-\widehat{\mu}(W_{j},X_{j}))\right)
+\end{align*}
+where $\widehat{\mu}$ is the series estimator of $\mu$. As in \cite{abadie2011bias}, we make the following assumption:
+\begin{assumption}\label{ass:5}
+    (i) 
+\end{assumption}
+For the bias-corrected estimator, we have the following theorem:
+\begin{theorem}\label{thm:1} 
+Assume $M=O(N^v)$ for some $v<1/2$ and $M\to\infty$ as $N\to\infty$. Under Assumption \ref{ass:1} to \ref{ass:4} and Assumption \ref{ass:5}, we have
+\begin{align}
+    \sqrt{N}(\widehat{\theta}_{bc}-\theta)\overset{d}{\to} N(0,\sigma^2)   
+\end{align}
+Also, there's a consistent variance estimator
+\begin{align}
+    \widehat{\sigma}^2=&\frac{N}{N_0^2}\sum_{i\in \mathcal{D}_0}(\widehat{\mu}(T(W_i),X_i)-\widehat{\mu}(W_i,X_i))-\widehat{\theta})^2\\&+\frac{N}{N_0^2}\left(\sum_{i\in\mathcal{D}_0}\widehat{\sigma}^2(W_i,X_i)+\sum_{i\in\mathcal{D}_1}\widehat{\sigma}^2(W_i,X_i)\frac{K_M^2(i)}{M^2}-2\sum_{i\in\mathcal{D}_0\cap\mathcal{D}_1}\widehat{\sigma}^2(W_i,X_i)\frac{K_M(i)}{M}\right)
+\end{align}
+\end{theorem}
+\begin{remark}
+    Completely nonparametric. This estimator actually achieves the efficiency bound.
+\end{remark}
+\subsection{Propensity score matching}
+In this section, following \cite{abadie2016matching}, we consider a generalized linear specification for the mvGPS, $e(\mathbf{w},\mathbf{x})=F\left((\mathbf{w}^{T},\mathbf{x}^{T})\gamma^*\right)$, where $F$ is a known function. Let $e(\mathbf{w},\mathbf{x};\gamma)=F\left((\mathbf{w}^{T},\mathbf{x}^{T})\gamma\right)$ and $r(\mathbf{w},\mathbf{x};\gamma)=\frac{e(\mathbf{w},\mathbf{x};\gamma)}{e(T^{-1}(\mathbf{w}),\mathbf{x};\gamma)}$. Let $\widehat{\gamma}_N$ be the maximum likelihood estimation (MLE) of $\gamma^*$. Consider a grid of cubes in  $\mathbb{R}^{k_x+k_w}$  with sides of length  $ d/ \sqrt{N}$ , for arbitrary positive  $d$ . Let  $\bar{\gamma}_{N}$  be the discretized estimator, defined as the midpoint of the cube  $\widehat{\gamma}_{N}$  belongs to. If  $\widehat{\gamma}_{N, j}$  is the  $j$th component of the  $k$-vector  $\widehat{\theta}_{N}$, then the  $j$th component of the  $k$-vector $\bar{\theta}_{N}$  is  $\bar{\theta}_{N, j}=(d / \sqrt{N})\left[\sqrt{N} \widehat{\theta}_{N, j} / d\right]$, where $[.]$ is the nearest integer function. The bias-corrected mvGPS matching estimator is defined as follows:
+\begin{align}
+\widehat{\theta}_{bc,mvGPS}=\frac{1}{N_0}\sum_{i \in \mathcal{D}_0}\frac{1}{M}\sum_{j\in\mathcal{J}_{M,\bar{\gamma}_N}(i)}(Y_{j}+\widehat{\bar{\mu}}(T(W_i),r(T(W_i),X_i;\bar{\gamma}_N))-\widehat{\bar{\mu}}(W_{j},r(W_{j},X_{j};\bar{\gamma}_N)))
+\end{align}
+Here, $\mathcal{J}_{M,\gamma}(i)$ is the set of $M$ nearest neighbors of unit $i$ in $\mathcal{D}_1$ with regard to the distances between $r(W_i,X_i;\gamma)$ and $r(W_j,X_j;\gamma)$. $\widehat{\bar{\mu}}$ is the series estimator of $\bar{\mu}$. ($\bar{\mu}$ also changes with $\gamma$.) For this estimator, we have the following theorem
+\begin{theorem}\label{thm:2}
+    Assume $M=O(N^v)$ for some $v<1/2$ and $M\to\infty$ as $N\to\infty$. Assume Assumption \ref{ass:1} to \ref{ass:4}. Assume further that the support of $(W,r(W,X;\gamma))$ is the Cartesian product of compact intervals and that Assumption 4 and 5 in \cite{abadie2016matching} hold. Then, we have
+\begin{align}
+    \sqrt{N_0}(\widehat{\theta}_{bc,mvGPS}-\theta)\overset{d}{\to} N(0,\sigma_{GPS}^2-\P_0c^{T}I_F^{-1}c)   
+\end{align}
+where 
+\begin{align}
+    &\sigma_{GPS}^2=\E\left[(\bar{\mu}(T(W),r(T(W),X))-\theta)^2\mid (W,X)\in\mathcal{D}_0\right]+ \E\left[\bar{\sigma}^2(T(W),r(T(W),X))r(T(W),X)\mid (W,X)\in\mathcal{D}_0\right]\\
+    &\P_0=\P((W,X)\in\mathcal{D}_0)\\
+    &c=\E\left[\Cov_{(W,X)\in\mathcal{D}_0}(\mu(W,X),X|(W^T,X^T)\gamma^*)\frac{f(W,X;\gamma^*)}{e(T^{-1}(W),X;\gamma^*)}\mid (W,X)\in\mathcal{D}_1\right]\\
+    &I_F=\E\left[\frac{f(W,X;\gamma^*)^2}{e(W,X;\gamma^*)^2}\left(\begin{array}{c}
+         W \\
+         X 
+    \end{array}\right)(W^T,X^T)\right]
+\end{align}
+\end{theorem}
+\begin{remark}
+    Semiparametric. If $W|X$ is Gaussian linear, the parametric specification is correct.
+\end{remark}
+\subsection{Double machine learning}
+Let $O=(Y,W,X)$. We exploit the following algorithm to get the $\sqrt{N}$-consistent estimation of $\theta$. 
+
+\begin{definition}
+DML($\Psi$): Input a Neyman-orthogonal score  $\Psi(O; \theta, \eta)$, where  $\eta=(r,\mu)$, the nuisance parameter. Then (1), For the sample  $\left\{O_{i}\right\}_{i=1}^{N}$, randomly partition the sample whose $(W_i,X_i)\in\mathcal{D}_0$ into folds  $\left(I_{\ell}\right)_{\ell=1}^{L}$  of approximately equal size. Denote by  $I_{\ell}^{c}$  the complement of  $I_{\ell}$ in $\left\{O_{i}\right\}_{i=1}^{N}$. (2) For each  $\ell$ , estimate  $\widehat{\eta}_{\ell}=(\widehat{r}_{\ell}, \widehat{\mu}_{\ell})$  from observations in  $I_{\ell}^{c}$ . (3) Estimate  $\theta$  as a root of:  $0=\frac{1}{N}\sum_{\ell=1}^{L} \sum_{i \in I_{\ell}} \Psi\left(O_{i} ;\theta, \widehat{\eta}_{\ell}\right)$ . Output  $\widehat{\theta}$  and the estimated scores  $\widehat{\Psi}^{o}\left(O_{i}\right)=\Psi\left(O_{i} ; \widehat{\theta},\widehat{\eta}_{\ell}\right)$  for each  $i \in I_{\ell}$ and each  $\ell$ .
+\end{definition}
+
+Therefore the estimator is defined as
+\begin{equation}
+\widehat{\theta}_{s}:=\operatorname{DML}\left(\Psi\right)
+\end{equation}
+for the score
+\begin{align}
+    &\Psi(O;\theta,\eta)=(Y-\mu(W,X))r(W,X)+\mu(T(W),X)-\theta\\
+    &or\ \Psi(O;\theta,\eta)=(Y-\bar{\mu}(W,r(W,X)))r(W,X)+\bar{\mu}(T(W),r(T(W),X))-\theta 
+\end{align}
+which is orthogonal at the true values of nuisance parameters. We can use regular regression methods to get the initial estimation of $\mu$ and use the method in \cite{lin2023estimation} to get the initial estimation of $r$. We have the following theorem:
+\begin{theorem}\label{thm:3}
+Suppose that $\Psi$ and the machine
+learners $\widehat{\eta}_{\ell}$ of $\eta_0$ obey Assumptions 3.1 and 3.2 in \cite{chernozhukov2018double}, in particular the estimators $\widehat{\eta}_{l} \in \mathcal{H}_s^2\times \mathcal{Q}_s^2$ has the convergence rate of
+\begin{align}
+    &\|\widehat{mu}_{\ell}-mu\|\|\widehat{r}_{\ell}-r\|=o_P(n^{-1/2})\\
+\end{align}
+Then the estimator is asymptotically linear and Gaussian with the influence function:
+\begin{align}
+&\Psi^{o}(O):=\Psi_{\theta}\left(O ; \theta, \eta_0\right)
+\end{align}
+The covariance of the scores can be estimated by the empirical analogues using the covariance of the estimated scores.
+\end{theorem}
+\begin{remark}
+    Nonparametric. The asymptotic variances under the two scores are same to $\sigma^2$ and $\sigma_{GPS}^2$ in the matching part respectively.
+\end{remark}
+
+\section{Simulation}\label{sec:simu}
+\section{Application}\label{sec:appli}
+\section{Conclusion}\label{sec:concl}
+\section{Proofs of the main results}\label{sec:main-proof}
+\noindent \textbf{Assumption 1 (Consistency)} For each unit j, $W_j = w$ implies $Y^{obs}_j = Y_j (w)$.
+
+\noindent \textbf{Assumption 2 (Overlap)} For all possible values of c, the conditional probability density function of receiving any possible exposure w $\in$ W is positive: $f_{W_j |C_j} (w | c) \geq p$ for all possible w, c, and for some constant p $\ge$ 0.
+
+\noindent\textbf{Assumption 3 (Local Weak Unconfoundedness)} The assignment mechanism is locally weakly unconfounded if for each unit j and all w $\in$ W, in which w is continuously distributed with respect to the Lebesgue measure on W, and for any $\tilde{w} \in B(w,\delta)$, $f\{Y_j (w) | C_j , W_j = \tilde{w}\} = f\{Y_j (w) | C_j \}$, where $B(w,\delta)$ corresponds to some distance on $R^d$.
+
+\noindent \textbf{Assumption 4 (Smoothness)} For each unit j and any w $\in$ W, $\mu_{gps}(w, e) = E[Y_j (w) | e(W_j , C_j ) =e, W_j = w]$ is Lipschitz continuous with respect to w for all e. That is, $|\mu_{gps}(w, e))-\mu_{gps}(w_0
+, e)|\leq
+B|w_0-w|$, $\forall w, w_0 \in W, \forall e$, for some constant B. Here $|\cdot|$ refers to some norm on $R^d$. 
+
+
+
+\noindent\textbf{Lemma 1 (Local Weak Unconfoundedness Given GPS)} Suppose the assignment mechanism
+is locally weakly unconfounded. Then for each unit j, all w $\in$ W and $\tilde{w},\hat{w} \in B(w,\delta)$, $p\{Y(w_0)=y| r(w_1,w_2,X)=r, W=w_1\} = p\{Y(w_0)=y| r(w_1,w_2,X)=r, W=w_2\}$.
+
+\begin{proof}[Proof of Lemma 1] $\forall$ y, e in the domain,
+\begin{align*}
+    &\P\{Y(w_0)=y \mid r(w_1,w_2,X)=r, W=w_1\}\\
+    \propto & \P\{Y(w_0)=y, r(w_1,w_2,X)=r, W=w_1\}\\
+    =&\P\{Y(w_0)=y, r(w_1,w_2,X)=r\} \P\{W = w_1\mid Y(w_0)=y, r(w_1,w_2,X)=r\}\\
+    =&\P\{Y(w_0)=y, r(w_1,w_2,X)=r\} \\
+    &\times\int \P\{W = w_1\mid Y(w_0)=y, r(w_1,w_2,X)=r,X=x\}dF_{X\mid Y(w_0),r(w_1,w_2,X)} \{x \mid r(w_1,w_2,X)=r, Y(w_0)=y\}\\
+    =&\P\{Y(w_0)=y, r(w_1,w_2,X)=r\}\int e(w_1, x)dF_{X\mid Y(w_0),r(w_1,w_2,X)} \{x \mid r(w_1,w_2,X)=r, Y(w_0)=y\}\\
+    =&\P\{Y(w_0)=y, r(w_1,w_2,X)=r\}\int re(w_2, x)dF_{X\mid Y(w_0),r(w_1,w_2,X)} \{x \mid r(w_1,w_2,X)=r, Y(w_0)=y\}\\
+    \propto&\P\{Y(w_0)=y, r(w_1,w_2,X)=r\}\int e(w_2, x)dF_{X\mid Y(w_0),r(w_1,w_2,X)} \{x \mid r(w_1,w_2,X)=r, Y(w_0)=y\}\\
+   \propto&\P\{Y(w_0)=y \mid r(w_1,w_2,X)=r, W=w_2\}
+\end{align*}
+Here $\propto$ means the ratio between the two formula is a constant independent of y. f and F refer to pdf and cdf respectively.
+
+Since the integral of $f\{Y_j (w)=y | \frac{e( \tilde{w}, C_j )}{e( \hat{w}, C_j )}=e, W_j = \hat{w}\}$ and $f\{Y_j (w)=y | \frac{e( \tilde{w}, C_j )}{e( \hat{w}, C_j )}=e, W_j = \tilde{w}\}$ are both 1, we complete the proof of lemma 1
+\end{proof}
+
+\begin{proof}[Proof of Lemma \ref{lem:identification}]
+    Under Assumption \ref{ass:1}, it's easy to verify that
+    \begin{equation}\label{ignor:1}
+        W\perp U_Y\mid X,
+    \end{equation}
+    where $\perp$ means independence between varaibles. Denote $p$ as the probability density function, then the independence condition leads to \eqref{iden_1}:
+    \begin{align*}
+        \theta=&\E[Y(T(W))\mid (W,X)\in\mathcal{D}_0]-\E[Y\mid (W,X)\in\mathcal{D}_0]\\
+        =&\E[f_Y(T(W),X,U_Y)\mid (W,X)\in\mathcal{D}_0]-\E[Y\mid (W,X)\in\mathcal{D}_0]\\
+        =&\int_{(w,x)\in\mathcal{D}_0}f_Y(T(w),x,u)p_{U_Y\mid W,X}(u|w,x)\frac{p_{W,X}(w,x)}{\P((W,X)\in\mathcal{D}_0)}dudwdx-\E[Y\mid (W,X)\in\mathcal{D}_0]\\
+        =&\int_{(w,x)\in\mathcal{D}_0}f_Y(T(w),x,u)p_{U_Y\mid W,X}(u|T(w),x)\frac{p_{W,X}(w,x)}{\P((W,X)\in\mathcal{D}_0)}dudwdx-\E[Y\mid (W,X)\in\mathcal{D}_0]\\
+        =&\int_{(w,x)\in\mathcal{D}_0}\E[Y\mid W=T(w),X=x]\frac{p_{W,X}(w,x)}{\P((W,X)\in\mathcal{D}_0)}dwdx-\E[Y\mid (W,X)\in\mathcal{D}_0]\\
+        =&\E\left[\E\left[Y|W=T(\tilde{W}), X=\tilde{X}\right]|(\tilde{W},\tilde{X}) \in \mathcal{D}_0\right]-\E[Y\mid (W,X)\in\mathcal{D}_0].
+    \end{align*}
+    Similarly, we can derive \eqref{iden_2} as follows:
+    \begin{align*}
+        \theta=&\int_{(w,x)\in\mathcal{D}_0}f_Y(T(w),x,u)p_{U_Y\mid W,X}(u|T(w),x)\frac{p_{W,X}(w,x)}{\P((W,X)\in\mathcal{D}_0)}dudwdx-\E[Y\mid (W,X)\in\mathcal{D}_0]\\
+        =&\int_{(w,x)\in\mathcal{D}_1}f_Y(w,x,u)p_{U_Y\mid W,X}(u|w,x)\frac{p_{W,X}(T^{-1}(w),x)}{\P((W,X)\in\mathcal{D}_0)}dudwdx-\E[Y\mid (W,X)\in\mathcal{D}_0]\\
+        =&\int_{(w,x)\in\mathcal{D}_1}f_Y(w,x,u)r(w,x)\frac{p_{W,X,U_Y}(w,x,u)}{\P((W,X)\in\mathcal{D}_0)}dudwdx-\E[Y\mid (W,X)\in\mathcal{D}_0]\\
+        =&\E\left[Yr(w,x)\frac{\P((W,X)\in\mathcal{D}_1)}{\P((W,X)\in\mathcal{D}_0)}|(W,X) \in \mathcal{D}_1\right]-\E[Y\mid (W,X)\in\mathcal{D}_0].
+    \end{align*}
+    To prove \eqref{iden_3}, we need to introduce the following lemma:
+    \begin{align*}
+        p_{Y(w_0)\mid W,\tilde{r}(w_1,w_2,X)}(y\mid w_1,r) = p_{Y(w_0)\mid W,\tilde{r}(w_1,w_2,X)}(y\mid w_2,r).
+    \end{align*}
+    Then,
+    \begin{align*}
+        \theta=&\E[Y(T(W))\mid (W,X)\in\mathcal{D}_0]-\E[Y\mid (W,X)\in\mathcal{D}_0]\\
+        =&\E[\E[Y(T(W))\mid W,r(W,X)]\mid (W,X)\in\mathcal{D}_0]-\E[Y\mid (W,X)\in\mathcal{D}_0]\\
+        =&\int\left(\int yp_{Y(T(W))\mid W,r(T(W),X))}(y|w,r)dy\right)p_{W,r(T(W),X)\mid\mathcal{D}_0}(w,r)dwdr-\E[Y\mid (W,X)\in\mathcal{D}_0]\\
+        =&\int\left(\int yp_{Y(T(w))\mid W,r(T(w),X)}(y|w,r)dy\right)p_{W,r(T(W),X)\mid\mathcal{D}_0}(w,r)dwdr-\E[Y\mid (W,X)\in\mathcal{D}_0]\\
+        =&\int\left(\int yp_{Y(T(w))\mid W,r(T(w),X)}(y|T(w),r)dy\right)p_{W,r(T(W),X)\mid\mathcal{D}_0}(w,r)dwdr-\E[Y\mid (W,X)\in\mathcal{D}_0]\\
+        =&\int\left(\int yp_{Y\mid W,r(T^{-1}(W),X)}(y|T(w),r)dy\right)p_{W,r(T(W),X)\mid\mathcal{D}_0}(w,r)dwdr-\E[Y\mid (W,X)\in\mathcal{D}_0]\\
+        =&\int\E[Y\mid W=T(w),r(T^{-1}(W),X)=r]p_{W,r(T(W),X)\mid\mathcal{D}_0}(w,r)dwdr-\E[Y\mid (W,X)\in\mathcal{D}_0]\\
+        =&\E\left[\E\left[Y|W=T(\tilde{W}),r(W,X)=r(T(\tilde{W}),\tilde{W},\tilde{X})\right]\mid (\tilde{W},\tilde{X})\in\mathcal{D}_0\right]-\E\left[Y|(W,X) \in \mathcal{D}_0\right].
+    \end{align*}
+    
+\end{proof}
+
+\begin{proof}[Proof of Lemma \ref{lem:efficient}]
+In calculating the variance bounds of $\theta$, we follow the method in Section 3.3 of \cite{bickel1982adaptive}. First, the tangent space is characterized. Consider the marginal distribution of $(W,X)$ and the conditional distribution of $Y$, we can find the tangent space $\mathscr{S}$ of $(Y,W,X)$ to be
+\begin{align*}
+\mathscr{S}=\left\{s(y,w,x)=f_1(w,x)+f_2(y,w,x)\right\},
+\end{align*}
+where $\int f_{2}(y,w, x) p_{Y\mid W,X}(y \mid w,x) d y=0\ a.s.$ for $(w,x)\in\mathcal{D}$ and that $\int f_{1}(w,x) p_{W,X}(w,x) dwdx=0$. For any $s(y,w,x)\in\mathcal{S}$, we can decompose it to be $f_1(w,x)$ and $f_2(y,w,x)$ as above.
+
+For any regular parametric submodel with parameter $\gamma$, we find from \eqref{iden_2} that
+\begin{align*}
+\theta(\gamma)=&\int\left(\int yp_{Y\mid W,X}(y\mid w,x,\gamma)dy\right)\frac{r(w,x\mid \gamma)\xi_1(w,x)}{\P((W,X)\in\mathcal{D}_0)}p_{W,X}(w,x\mid\gamma)dwdx\\
+&-\iint\frac{y\xi_0(w,x)}{\P((W,X)\in\mathcal{D}_0)} p_{Y,W,X}(y,w,x\mid\gamma) dydwdx.\\
+\end{align*}
+
+
+Then, we can find that $\theta$ is pathwise differentiable to $\gamma$, and we can derive the following equation if we denote $\gamma_0$ as the parameter for the true model:
+
+\begin{align*}
+\frac{\partial \theta\left(\gamma_{0}\right)}{\partial \gamma}= & \int\left(\int yf_2(y,w,x)p_{Y\mid W,X}(y\mid w,x)dy\right)\frac{r(w,x)\xi_1(w,x)}{\P((W,X)\in\mathcal{D}_0)}p_{W,X}(w,x)dwdx\\
+&+\int\left(\int yp_{Y\mid W,X}(y\mid w,x)dy\right)\frac{r(w,x)\xi_1(w,x)}{\P((W,X)\in\mathcal{D}_0)}f_1(w,x)p_{W,X}(w,x)dwdx\\
+&+\int\left(\int yp_{Y\mid W,X}(y\mid w,x)dy\right)\frac{r(w,x)(f_1(T^{-1}(w),x)-f_1(w,x))\xi_1(w,x)}{\P((W,X)\in\mathcal{D}_0)}p_{W,X}(w,x)dwdx\\
+&-\iint\frac{y\xi_0(w,x)}{\P((W,X)\in\mathcal{D}_0)} s(y,w,x)p_{Y,W,X}(y,w,x) dwdx\\
+=&\E[(f_1(W,X)+f_2(Y,W,X))\frac{r(W,X)\xi_1(W,X)}{\P((W,X)\in\mathcal{D}_0)}(Y-\mu(W,X))]\\
+&+\E[(f_1(W,X)+f_2(Y,W,X))\frac{r(W,X)\xi_1(W,X)}{\P((W,X)\in\mathcal{D}_0)}\mu(W,X)]\\
+&-\E[(f_1(W,X)+f_2(Y,W,X))\frac{r(W,X)\xi_1(W,X)}{\P((W,X)\in\mathcal{D}_0)}\mu(W,X)]\\
+&+\int\mu(w,x)\frac{f_1(T^{-1}(w),x)\xi_1(w,x)}{\P((W,X)\in\mathcal{D}_0)}p_{W,X}(T^{-1}(w),x)dwdx\\
+&-\E[s(Y,W,X)\frac{\xi_0(W,X)}{\P((W,X)\in\mathcal{D}_0)}(Y-\theta)]\\
+=&\E\left[s(Y,W,X)\frac{r(W,X)\xi_1(W,X)(Y-\mu(W,X))-\xi_0(W,X)(Y-\theta)}{\P((W,X)\in\mathcal{D}_0)}\right]\\
+&+\int\mu(T(w),x)\frac{f_1(w,x)\xi_0(w,x)}{\P((W,X)\in\mathcal{D}_0)}p_{W,X}(w,x)dwdx\\
+=&\E\left[s(Y,W,X)\frac{r(W,X)\xi_1(W,X)(Y-\mu(W,X))-\xi_0(W,X)(Y-\theta)-\xi_0(W,X)\mu(T(W),X)}{\P((W,X)\in\mathcal{D}_0)}\right]\\
+=&\E\left[s(Y,W,X)D(P)(O)\right]
+\end{align*}
+
+Finally, since $D(P)(O)\in\mathscr{S}$ holds, $D(P)(O)\mid\mathcal{S}$ is the efficient curve of $\theta$ and $\sigma^2=\E[D(P)(O)^2]$ is the efficiency bound for asymptotic variance.
+\end{proof}
+
+
+\begin{proof}[Proof of Theorem \ref{thm:1}]
+    For each sample splitting scheme, let $\mathcal{E}_0$ be the set where $W$ is changed and let $\mathcal{E}_1$ be the set where $W$ is fixed. Then, the estimator obtained with the two complementary sample splitting schemes can be decomposed as follows:
+    \begin{align*}
+        &N^{1/2}(\widehat{\theta}_{bc}-\theta)\\
+        =&\frac{N^{1/2}}{N_0}\sum_{p=1}^2\sum_{i\in \mathcal{D}_0\cap\mathcal{E}_0}\frac{1}{M}\sum_{j\in\mathcal{J}_M(i)}\{[\widehat{\mu}(T(W_i),X_i)-\mu(T(W_i),X_i)]-[\widehat{\mu}(W_j,X_j)-\mu(W_j,X_j)]\}\\
+        &+\frac{N^{1/2}}{N_0}\sum_{p=1}^2\sum_{i\in \mathcal{D}_0\cap\mathcal{E}_0}(\mu(T(W_i),X_i)-\mu(W_i,X_i)-\theta)\\
+        &+\frac{N^{1/2}}{N_0}\sum_{p=1}^2\sum_{i=1}^N(\ind(i\in\mathcal{D}_1\cap\mathcal{E}_1)r(W_i,X_i)-\ind(i\in\mathcal{D}_0\cap\mathcal{E}_0))\epsilon_i\\
+        &+\frac{N^{1/2}}{N_0}\sum_{p=1}^2\sum_{i=1}^N\ind(i\in\mathcal{D}_1\cap\mathcal{E}_1)(\frac{K_M(i)}{M}-r(W_i,X_i))\epsilon_i.
+    \end{align*}
+    Among the four terms, notice that the middle two terms are asymptotically independent, we only need to prove the following four statements:
+        \begin{align}
+            &\frac{N^{1/2}}{N_0}\sum_{p=1}^2\sum_{i\in \mathcal{D}_0\cap\mathcal{E}_0}\frac{1}{M}\sum_{j\in\mathcal{J}_M(i)}\{[\widehat{\mu}(T(W_i),X_i)-\mu(T(W_i),X_i)]-[\widehat{\mu}(W_j,X_j)-\mu(W_j,X_j)]\}=o_P(1)\label{eq:thm1.1}\\
+            &\frac{N^{1/2}}{N_0}\sum_{p=1}^2\sum_{i\in \mathcal{D}_0\cap\mathcal{E}_0}(\mu(T(W_i),X_i)-\mu(W_i,X_i)-\theta)\overset{d}{\to}N(0,\sigma_1^2)\label{eq:thm1.2}\\
+            &\frac{N^{1/2}}{N_0}\sum_{p=1}^2\sum_{i=1}^N(\ind(i\in\mathcal{D}_1\cap\mathcal{E}_1)r(W_i,X_i)-\ind(i\in\mathcal{D}_0\cap\mathcal{E}_0))\epsilon_i\overset{d}{\to}N(0,\sigma_2^2).\label{eq:thm1.3}\\ 
+            &\frac{N^{1/2}}{N_0}\sum_{p=1}^2\sum_{i=1}^N\ind(i\in\mathcal{D}_1\cap\mathcal{E}_1)(\frac{K_M(i)}{M}-r(W_i,X_i))\epsilon_i=o_P(1)\label{eq:thm1.4}  
+        \end{align}
+    To prove \eqref{eq:thm1.1}, we follow the proof of Lemma C.3 in \cite{lin2023estimation}. Suppose $j_m(i)$ is the $m-th$ nearest neighbor of i. Suppose $U_{m,i}=(W_{j_m(i)},X_{j_m(i)})-(T(W_i),X_i)$. Suppose $\partial^t$ and $U_{m,i}^t$ can be defined with vector t, where t indicates the order of each variable/component. Suppose $\Lambda_{\ell}$ is the set of all nonnegative integer vectors whose sum is $\ell$. Let $k_w+k_x=d$ and $k=\lfloor d/2\rfloor+1$. From Tyler expansion, we know that 
+\[\left| \mu (W_{j_m(i)},X_{j_m(i)}) - \mu (T(W_i),X_i) - \sum_{\ell=1}^{k-1} \frac{1}{\ell!} \sum_{t \in \Lambda_\ell} \partial^t \mu (T(W_i),X_i) U_{m,i}^t \right| \leq \max_{t \in \Lambda_k} \left\| \partial^t \mu \right\|_\infty \frac{1}{k!} \sum_{t \in \Lambda_k} \left\| U_{m,i} \right\|^k,\]
+\[\left| \hat{\mu} (W_{j_m(i)},X_{j_m(i)}) - \hat{\mu} (T(W_i),X_i) - \sum_{\ell=1}^{k-1} \frac{1}{\ell!} \sum_{t \in \Lambda_\ell} \partial^t \hat{\mu} (T(W_i),X_i) U_{m,i}^t \right| \leq \max_{t \in \Lambda_k} \left\| \partial^t \hat{\mu} \right\|_\infty \frac{1}{k!} \sum_{t \in \Lambda_k} \left\| U_{m,i} \right\|^k,\]
+and
+\[\sum_{\ell=1}^{k-1} \left| \frac{1}{\ell!} \sum_{t \in \Lambda_\ell} (\partial^t \hat{\mu} (T(W_i),X_i) - \partial^t \mu (T(W_i),X_i)) U_{m,i}^t \right| \leq \sum_{\ell=1}^{k-1} \max_{t \in \Lambda_\ell} \left\| \partial^t \hat{\mu} - \partial^t \mu \right\|_\infty \frac{1}{\ell!} \sum_{t \in \Lambda_\ell} \left\| U_{m,i} \right\|^\ell.\]
+So,
+\begin{align*}
+&\left|\frac{N^{1/2}}{N_0}\sum_{p=1}^2\sum_{i\in \mathcal{D}_0\cap\mathcal{E}_0}\frac{1}{M}\sum_{j\in\mathcal{J}_M(i)}\{[\widehat{\mu}(T(W_i),X_i)-\mu(T(W_i),X_i)]-[\widehat{\mu}(W_j,X_j)-\mu(W_j,X_j)]\}\right| \\
+\leq& N^{1/2}\left( \max_{\omega \in \{0,1\}, t \in \Lambda_k} \left\| \partial^t \mu \right\|_\infty + \max_{\omega \in \{0,1\}, t \in \Lambda_k} \left\| \partial^t \hat{\mu} \right\|_\infty \right) \left( \frac{1}{N_0} \sum_{p=1}^2\sum_{i\in\mathcal{D}_0\cap\mathcal{E}_0} \left\| U_{m,i} \right\|^k \right)\\
+&+ N^{1/2}\sum_{\ell=1}^{k-1} \left( \max_{\omega \in \{0,1\}, t \in \Lambda_\ell} \left\| \partial^t \hat{\mu} - \partial^t \mu \right\|_\infty \right) \left( \frac{1}{N_0} \sum_{p=1}^2\sum_{i\in\mathcal{D}_0\cap\mathcal{E}_0}\left\| U_{m,i} \right\|^\ell \right)
+\end{align*}
+With the Lemma C.2 in \cite{lin2023estimation}, we know that for any integer $p>0$,
+\[\frac{1}{n} \sum_{i=1}^n \left\| U_{m,i} \right\|^p = O_p \left( \left( \frac{M}{|\mathcal{D}_1\cap\mathcal{E}_1|} \right)^{p/d} \right)=O_p \left( \left( \frac{M}{N_1} \right)^{p/d} \right).\]
+Therefore, with the assumptions on the convergence rate of $\hat{\mu}$ and the derivative of the $\mu$ function, we know that
+\begin{align*}
+&\left|\frac{N^{1/2}}{N_0}\sum_{p=1}^2\sum_{i\in \mathcal{D}_0\cap\mathcal{E}_0}\frac{1}{M}\sum_{j\in\mathcal{J}_M(i)}\{[\widehat{\mu}(T(W_i),X_i)-\mu(T(W_i),X_i)]-[\widehat{\mu}(W_j,X_j)-\mu(W_j,X_j)]\}\right| \\
+=& N^{1/2}\left(O_p(1)O_p\left(\left(\frac{M}{N_1}\right)^{k/d}\right) + \max_{\ell \in [k-1]} O_p(n^{-\gamma_{\ell}}) O_p\left(\left(\frac{M}{N_1}\right)^{\ell/d}\right)\right)\\
+=& N^{1/2}O_p\left(\left(\frac{M}{N_1}\right)^{k/d} + \max_{\ell \in [k-1]}n^{-\gamma_{\ell}} \left(\frac{M}{N_1}\right)^{\ell/d}\right)=o_P(1).
+\end{align*}
+As for \eqref{eq:thm1.2} and \eqref{eq:thm1.3}, it's easy to verify that
+\[\eqref{eq:thm1.2}=\frac{N^{1/2}}{N_0}\sum_{i=1}^N\ind(i\in\mathcal{D}_0)(\mu(T(W_i),X_i)-\mu(W_i,X_i)-\theta)\overset{d}{\to}N(0,\sigma_1^2)\]
+and 
+\[\eqref{eq:thm1.3}=\frac{N^{1/2}}{N_0}\sum_{i=1}^N(\ind(i\in\mathcal{D}_1)r(W_i,X_i)-\ind(i\in\mathcal{D}_0\cap\mathcal{E}_0))\epsilon_i\overset{d}{\to}N(0,\sigma_2^2).\]
+As for \eqref{eq:thm1.4}, similar to the proof of Lemma C.1 in \cite{lin2023estimation}, we can apply the Linderberg-Feller central limit theorem to prove that 
+\[\frac{N^{1/2}}{VN_0}\sum_{i=1}^N\sum_{p=1}^2\ind(i\in\mathcal{D}_1\cap\mathcal{E}_1)(\frac{K_M(i)}{M}-r(W_i,X_i))\epsilon_i\overset{d}{\to}N(0,1),\]
+where
+\begin{align*}
+     V=&\frac{N}{N_0^2}\sum_{i=1}^NVar\left(\sum_{p=1}^2\ind(i\in\mathcal{D}_1\cap\mathcal{E}_1)(\frac{K_M(i)}{M}-r(W_i,X_i))\epsilon_i\mid W_i,X_i\right)\\
+     =&\frac{N}{N_0^2}\sum_{i=1}^N \ind(i\in\mathcal{D}_1)(\frac{K_M(i)}{M}-r(W_i,X_i))^2\sigma^2(W_i,X_i).
+\end{align*}
+From Theorem B.2 in \cite{lin2023estimation}, we know that
+\[EV\leq \frac{NN_1C}{N_0^2}E\left(\frac{K_M(i)}{M}-r(W_i,X_i)\right)^2=o\left(\frac{NN_1C}{N_0^2}\right)=o(1),\]
+where C is the upper bound of $\sigma^2(W_i,X_i)$. Therefore, \eqref{eq:thm1.4}=$O_P(EV)=o_P(1).$ 
+\end{proof}
+
+\begin{proof}[Proof of Theorem \ref{thm:2}]
+    First, we can consider the case when the estimator $\widehat{\gamma}$ happens to be the true $\gamma$. In this case, the asmptotic normality of our matching estimator follows from the proof of Theorem \ref{thm:1}, and we can derive the influence function of the estimator. Second, we can calculate the covariance between the estimator and the score function of $\gamma$. Finally, we can apply Le Cam's third lemma on the discretized values of $\widehat{\gamma}$ to finish the proof.
+\end{proof}
+{%\small
+\bibliographystyle{apalike}
+\bibliography{AMS}
+}
+
+\end{document}
