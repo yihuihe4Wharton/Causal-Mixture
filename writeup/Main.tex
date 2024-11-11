@@ -357,8 +357,12 @@ In some cases, we may not be aware of $\mathcal{D}$ and it is hard to set a reas
 
 \section{Methods}\label{sec:setup}
 \begin{assumption}\label{ass:1}
-(i) Without policy intervention, $X \in R^{k_x}$, $W \in R^{k_w}$ and $Y \in R^{k_y}$ are continuously distributed. (ii) The structural equation model is $X = f_X(U_X)$, $W = f_W(X, U_W)$ and $Y = f_Y (W, X, U_Y )$, where  $U_{X}$, $U_{W}$ and  $U_{Y}$  are exogenous random variables. $U_{W}$ is independent of $ U_{Y}$, and $U_{X}$ is independent of $ U_{Y}$ or $U_{W}$. (iii) The policy of interest only affect $U_{W}$, keeping $U_{X}$ and $ U_{Y}$ constant.
+(i) Without policy intervention, $X \in R^{k_x}$, $W \in R^{k_w}$ and $Y \in R^{k_y}$ are continuously distributed. (ii) $Y(w)\perp W\mid X$.
 \end{assumption}
+\begin{remark}
+In Pearl's model, we can view this assumption as: (i) The structural equation model is $X = f_X(U_X)$, $W = f_W(X, U_W)$ and $Y = f_Y (W, X, U_Y )$, where  $U_{X}$, $U_{W}$ and  $U_{Y}$  are exogenous random variables. $U_{W}$ is independent of $ U_{Y}$, and $U_{X}$ is independent of $ U_{Y}$ or $U_{W}$. (ii) The policy of interest only affect $U_{W}$, keeping $U_{X}$ and $ U_{Y}$ constant.
+\end{remark}
+
 
 \begin{assumption}\label{ass:2}
 (i) Let the support of (W,X) be $\mathcal{D}$. $\mathcal{D}$ is a Cartesian product of compact intervals; (ii) The population treated by the policy are the units whose $(W_i,X_i)$ are in a known region $\mathcal{D}_0\subset\mathcal{D}$; (iii) $(W,X) \in \mathcal{D}_0\Rightarrow (T(W;d),X)\in \mathcal{D}$; (iv) The transformation from $(W,X)$ to $(T(W;\mathbf{d}),X)$ is a bijection from $\mathcal{D}_0$ to another region $\mathcal{D}_1$.
@@ -515,73 +519,43 @@ The covariance of the scores can be estimated by the empirical analogues using t
 \section{Application}\label{sec:appli}
 \section{Conclusion}\label{sec:concl}
 \section{Proofs of the main results}\label{sec:main-proof}
-\noindent \textbf{Assumption 1 (Consistency)} For each unit j, $W_j = w$ implies $Y^{obs}_j = Y_j (w)$.
-
-\noindent \textbf{Assumption 2 (Overlap)} For all possible values of c, the conditional probability density function of receiving any possible exposure w $\in$ W is positive: $f_{W_j |C_j} (w | c) \geq p$ for all possible w, c, and for some constant p $\ge$ 0.
-
-\noindent\textbf{Assumption 3 (Local Weak Unconfoundedness)} The assignment mechanism is locally weakly unconfounded if for each unit j and all w $\in$ W, in which w is continuously distributed with respect to the Lebesgue measure on W, and for any $\tilde{w} \in B(w,\delta)$, $f\{Y_j (w) | C_j , W_j = \tilde{w}\} = f\{Y_j (w) | C_j \}$, where $B(w,\delta)$ corresponds to some distance on $R^d$.
-
-\noindent \textbf{Assumption 4 (Smoothness)} For each unit j and any w $\in$ W, $\mu_{gps}(w, e) = E[Y_j (w) | e(W_j , C_j ) =e, W_j = w]$ is Lipschitz continuous with respect to w for all e. That is, $|\mu_{gps}(w, e))-\mu_{gps}(w_0
-, e)|\leq
-B|w_0-w|$, $\forall w, w_0 \in W, \forall e$, for some constant B. Here $|\cdot|$ refers to some norm on $R^d$. 
-
-
-
-\noindent\textbf{Lemma 1 (Local Weak Unconfoundedness Given GPS)} Suppose the assignment mechanism
-is locally weakly unconfounded. Then for each unit j, all w $\in$ W and $\tilde{w},\hat{w} \in B(w,\delta)$, $p\{Y(w_0)=y| r(w_1,w_2,X)=r, W=w_1\} = p\{Y(w_0)=y| r(w_1,w_2,X)=r, W=w_2\}$.
-
-\begin{proof}[Proof of Lemma 1] $\forall$ y, e in the domain,
-\begin{align*}
-    &\P\{Y(w_0)=y \mid r(w_1,w_2,X)=r, W=w_1\}\\
-    \propto & \P\{Y(w_0)=y, r(w_1,w_2,X)=r, W=w_1\}\\
-    =&\P\{Y(w_0)=y, r(w_1,w_2,X)=r\} \P\{W = w_1\mid Y(w_0)=y, r(w_1,w_2,X)=r\}\\
-    =&\P\{Y(w_0)=y, r(w_1,w_2,X)=r\} \\
-    &\times\int \P\{W = w_1\mid Y(w_0)=y, r(w_1,w_2,X)=r,X=x\}dF_{X\mid Y(w_0),r(w_1,w_2,X)} \{x \mid r(w_1,w_2,X)=r, Y(w_0)=y\}\\
-    =&\P\{Y(w_0)=y, r(w_1,w_2,X)=r\}\int e(w_1, x)dF_{X\mid Y(w_0),r(w_1,w_2,X)} \{x \mid r(w_1,w_2,X)=r, Y(w_0)=y\}\\
-    =&\P\{Y(w_0)=y, r(w_1,w_2,X)=r\}\int re(w_2, x)dF_{X\mid Y(w_0),r(w_1,w_2,X)} \{x \mid r(w_1,w_2,X)=r, Y(w_0)=y\}\\
-    \propto&\P\{Y(w_0)=y, r(w_1,w_2,X)=r\}\int e(w_2, x)dF_{X\mid Y(w_0),r(w_1,w_2,X)} \{x \mid r(w_1,w_2,X)=r, Y(w_0)=y\}\\
-   \propto&\P\{Y(w_0)=y \mid r(w_1,w_2,X)=r, W=w_2\}
-\end{align*}
-Here $\propto$ means the ratio between the two formula is a constant independent of y. f and F refer to pdf and cdf respectively.
-
-Since the integral of $f\{Y_j (w)=y | \frac{e( \tilde{w}, C_j )}{e( \hat{w}, C_j )}=e, W_j = \hat{w}\}$ and $f\{Y_j (w)=y | \frac{e( \tilde{w}, C_j )}{e( \hat{w}, C_j )}=e, W_j = \tilde{w}\}$ are both 1, we complete the proof of lemma 1
-\end{proof}
-
 \begin{proof}[Proof of Lemma \ref{lem:identification}]
-    Under Assumption \ref{ass:1}, it's easy to verify that
-    \begin{equation}\label{ignor:1}
-        W\perp U_Y\mid X,
-    \end{equation}
-    where $\perp$ means independence between varaibles. Denote $p$ as the probability density function, then the independence condition leads to \eqref{iden_1}:
+    Since
+    \[\E[Y(T(W))\mid W=w,X=x]=\E[Y(T(w))\mid W=T(w),X=x]=\E[Y\mid W=T(w),X=x],\]
+    we know that
+    \[\E[Y(T(W))\mid (W,X)\in\mathcal{D}_0]=\E\left[\E\left[Y|W=T(\tilde{W}), X=\tilde{X}\right]|(\tilde{W},\tilde{X}) \in \mathcal{D}_0\right]\]
+    and that
     \begin{align*}
-        \theta=&\E[Y(T(W))\mid (W,X)\in\mathcal{D}_0]-\E[Y\mid (W,X)\in\mathcal{D}_0]\\
-        =&\E[f_Y(T(W),X,U_Y)\mid (W,X)\in\mathcal{D}_0]-\E[Y\mid (W,X)\in\mathcal{D}_0]\\
-        =&\int_{(w,x)\in\mathcal{D}_0}f_Y(T(w),x,u)p_{U_Y\mid W,X}(u|w,x)\frac{p_{W,X}(w,x)}{\P((W,X)\in\mathcal{D}_0)}dudwdx-\E[Y\mid (W,X)\in\mathcal{D}_0]\\
-        =&\int_{(w,x)\in\mathcal{D}_0}f_Y(T(w),x,u)p_{U_Y\mid W,X}(u|T(w),x)\frac{p_{W,X}(w,x)}{\P((W,X)\in\mathcal{D}_0)}dudwdx-\E[Y\mid (W,X)\in\mathcal{D}_0]\\
-        =&\int_{(w,x)\in\mathcal{D}_0}\E[Y\mid W=T(w),X=x]\frac{p_{W,X}(w,x)}{\P((W,X)\in\mathcal{D}_0)}dwdx-\E[Y\mid (W,X)\in\mathcal{D}_0]\\
-        =&\E\left[\E\left[Y|W=T(\tilde{W}), X=\tilde{X}\right]|(\tilde{W},\tilde{X}) \in \mathcal{D}_0\right]-\E[Y\mid (W,X)\in\mathcal{D}_0].
+        \theta=\E\left[\E\left[Y|W=T(\tilde{W}), X=\tilde{X}\right]|(\tilde{W},\tilde{X}) \in \mathcal{D}_0\right]-\E[Y\mid (W,X)\in\mathcal{D}_0].
     \end{align*}
-    Similarly, we can derive \eqref{iden_2} as follows:
+    
+    Based on \eqref{iden_1}, we can derive \eqref{iden_2} as follows:
     \begin{align*}
-        \theta=&\int_{(w,x)\in\mathcal{D}_0}f_Y(T(w),x,u)p_{U_Y\mid W,X}(u|T(w),x)\frac{p_{W,X}(w,x)}{\P((W,X)\in\mathcal{D}_0)}dudwdx-\E[Y\mid (W,X)\in\mathcal{D}_0]\\
-        =&\int_{(w,x)\in\mathcal{D}_1}f_Y(w,x,u)p_{U_Y\mid W,X}(u|w,x)\frac{p_{W,X}(T^{-1}(w),x)}{\P((W,X)\in\mathcal{D}_0)}dudwdx-\E[Y\mid (W,X)\in\mathcal{D}_0]\\
-        =&\int_{(w,x)\in\mathcal{D}_1}f_Y(w,x,u)r(w,x)\frac{p_{W,X,U_Y}(w,x,u)}{\P((W,X)\in\mathcal{D}_0)}dudwdx-\E[Y\mid (W,X)\in\mathcal{D}_0]\\
-        =&\E\left[Yr(w,x)\frac{\P((W,X)\in\mathcal{D}_1)}{\P((W,X)\in\mathcal{D}_0)}|(W,X) \in \mathcal{D}_1\right]-\E[Y\mid (W,X)\in\mathcal{D}_0].
+        \theta=&\int_{(w,x)\in\mathcal{D}_0}\E\left[Y|W=T(w), X=x\right]\frac{p_{W,X}(w,x)}{\P((W,X)\in\mathcal{D}_0)}dwdx-\E[Y\mid (W,X)\in\mathcal{D}_0]\\
+        =&\int_{(w,x)\in\mathcal{D}_1}\E\left[Y|W=w, X=x\right]\frac{p_{W,X}(T^{-1}(w),x)}{\P((W,X)\in\mathcal{D}_0)}dwdx-\E[Y\mid (W,X)\in\mathcal{D}_0]\\
+        =&\int_{(w,x)\in\mathcal{D}_1}\E\left[Y|W=w, X=x\right]\frac{r(w,x)p_{W,X}(w,x)}{\P((W,X)\in\mathcal{D}_0)}dwdx-\E[Y\mid (W,X)\in\mathcal{D}_0]\\
+        =&\E\left[Yr(W,X)\frac{\P((W,X)\in\mathcal{D}_1)}{\P((W,X)\in\mathcal{D}_0)}|(W,X) \in \mathcal{D}_1\right]-\E[Y\mid (W,X)\in\mathcal{D}_0].
     \end{align*}
-    To prove \eqref{iden_3}, we need to introduce the following lemma:
+    
+    To prove \eqref{iden_3}, we first notice that
+    \[\frac{p_{W\mid (X,r(T(w),X)) }(w\mid x,r(T(w),x))}{p_{W\mid (X,r(T(w),X)) }(T(w)\mid x,r(T(w),x)}=\frac{p_{W\mid r(T(w),X) }(w\mid r(T(w),x))}{p_{W\mid r(T(w),X) }(T(w)\mid r(T(w),x))}=r(T(w),x).\]
+    Given this result, we have
     \begin{align*}
-        p_{Y(w_0)\mid W,\tilde{r}(w_1,w_2,X)}(y\mid w_1,r) = p_{Y(w_0)\mid W,\tilde{r}(w_1,w_2,X)}(y\mid w_2,r).
+        &\E[Y(T(W))\mid W=w,r(T(W),X)=r(T(w),x)]\\
+        =&\E[Y(T(w))\mid W=w,r(T(w),X)=r(T(w),x)]\\
+        =&\int_{r(T(w),X)=r(T(w),x)} E[Y(T(w)) \mid W=w, X=x]p_{X\mid (W,r(T(w),X)) }(x\mid w,r(T(w),x))dx\\
+        =&\int_{r(T(w),X)=r(T(w),x)} E[Y\mid W=T(w), X=x]p_{X\mid (W,r(T(w),X)) }(x\mid w,r(T(w),x))dx\\
+        =&\int_{r(T(w),X)=r(T(w),x)} E[Y\mid W=T(w), X=x]\frac{p_{(X,W)\mid r(T(w),X) }(x,w\mid r(T(w),x))}{p_{W\mid r(T(w),X) }(w\mid r(T(w),x))}dx\\
+        =&\int_{r(T(w),X)=r(T(w),x)} E[Y\mid W=T(w), X=x]\frac{p_{X\mid r(T(w),X) }(x\mid r(T(w),x))p_{W\mid (X,r(T(w),X)) }(w\mid x,r(T(w),x))}{p_{W\mid r(T(w),X) }(w\mid r(T(w),x))}dx\\
+        =&\int_{r(T(w),X)=r(T(w),x)} E[Y\mid W=T(w), X=x]\frac{p_{X\mid r(T(w),X) }(x\mid r(T(w),x))p_{W\mid (X,r(T(w),X)) }(T(w)\mid x,r(T(w),x))}{p_{W\mid r(T(w),X) }(T(w)\mid r(T(w),x))}dx\\
+        =&\int_{r(T(w),X)=r(T(w),x)} E[Y\mid W=T(w), X=x]p_{X\mid (W,r(T(w),X)) }(x\mid T(w),r(T(w),x))dx\\
+        =&\int_{r(T(w),X)=r(T(w),x)} E[Y\mid W=T(w), X=x]p_{X\mid (W,r(W,X)) }(x\mid T(w),r(T(w),x))dx\\
+        =&\E\left[Y|W=T(w),r(W,X)=r(T(w),x)\right].
     \end{align*}
-    Then,
+    Finally, we have
     \begin{align*}
-        \theta=&\E[Y(T(W))\mid (W,X)\in\mathcal{D}_0]-\E[Y\mid (W,X)\in\mathcal{D}_0]\\
-        =&\E[\E[Y(T(W))\mid W,r(W,X)]\mid (W,X)\in\mathcal{D}_0]-\E[Y\mid (W,X)\in\mathcal{D}_0]\\
-        =&\int\left(\int yp_{Y(T(W))\mid W,r(T(W),X))}(y|w,r)dy\right)p_{W,r(T(W),X)\mid\mathcal{D}_0}(w,r)dwdr-\E[Y\mid (W,X)\in\mathcal{D}_0]\\
-        =&\int\left(\int yp_{Y(T(w))\mid W,r(T(w),X)}(y|w,r)dy\right)p_{W,r(T(W),X)\mid\mathcal{D}_0}(w,r)dwdr-\E[Y\mid (W,X)\in\mathcal{D}_0]\\
-        =&\int\left(\int yp_{Y(T(w))\mid W,r(T(w),X)}(y|T(w),r)dy\right)p_{W,r(T(W),X)\mid\mathcal{D}_0}(w,r)dwdr-\E[Y\mid (W,X)\in\mathcal{D}_0]\\
-        =&\int\left(\int yp_{Y\mid W,r(T^{-1}(W),X)}(y|T(w),r)dy\right)p_{W,r(T(W),X)\mid\mathcal{D}_0}(w,r)dwdr-\E[Y\mid (W,X)\in\mathcal{D}_0]\\
-        =&\int\E[Y\mid W=T(w),r(T^{-1}(W),X)=r]p_{W,r(T(W),X)\mid\mathcal{D}_0}(w,r)dwdr-\E[Y\mid (W,X)\in\mathcal{D}_0]\\
-        =&\E\left[\E\left[Y|W=T(\tilde{W}),r(W,X)=r(T(\tilde{W}),\tilde{W},\tilde{X})\right]\mid (\tilde{W},\tilde{X})\in\mathcal{D}_0\right]-\E\left[Y|(W,X) \in \mathcal{D}_0\right].
+        \theta=&\E\left[\E\left[Y(T(W))|W=\tilde{W}, r(T(W),X)=r(T(\tilde{W}),\tilde{X})\right]|(\tilde{W},\tilde{X}) \in \mathcal{D}_0\right]-\E[Y\mid (W,X)\in\mathcal{D}_0]\\
+        =&\E\left[\E\left[Y|W=T(\tilde{W}),r(W,X)=r(T(\tilde{W}),\tilde{X})\right]\mid (\tilde{W},\tilde{X})\in\mathcal{D}_0\right]-\E\left[Y|(W,X) \in \mathcal{D}_0\right].
     \end{align*}
     
 \end{proof}
@@ -618,7 +592,7 @@ Then, we can find that $\theta$ is pathwise differentiable to $\gamma$, and we c
 =&\E\left[s(Y,W,X)D(P)(O)\right]
 \end{align*}
 
-Finally, since $D(P)(O)\in\mathscr{S}$ holds, $D(P)(O)\mid\mathcal{S}$ is the efficient curve of $\theta$ and $\sigma^2=\E[D(P)(O)^2]$ is the efficiency bound for asymptotic variance.
+Finally, since $D(P)(O)\in\mathscr{S}$ holds, $D(P)(O)$ is the efficient curve of $\theta$ and $\sigma^2=\E[D(P)(O)^2]$ is the efficiency bound for asymptotic variance.
 \end{proof}
 
 
