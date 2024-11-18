@@ -437,22 +437,28 @@ to be the number of matched times of unit $i$, i.e.,
 Then, we can define the bias-corrected estimator as follows:
 \begin{align*}
     \widehat{\theta}_{bc}&=\frac{1}{N_0}\sum_{p=1}^2\sum_{i \in \mathcal{D}_0\cap\mathcal{E}_0}\frac{1}{M}\sum_{j\in \mathcal{J}_M(i)}(\widehat{\mu}(T(W_i),X_i)+Y_{j}-\widehat{\mu}(W_{j},X_{j})-Y_i)\\
-    &=\frac{1}{N_0}\sum_{p=1}^2\left(\sum_{i \in \mathcal{D}_0\cap\mathcal{E}_0}(\widehat{\mu}(T(W_i),X_i)-Y_i)+\frac{1}{N_0}\sum_{j \in \mathcal{D}_1\cap\mathcal{E}_1}\frac{K_M(j)}{M}(Y_{j}-\widehat{\mu}(W_{j},X_{j}))\right)
+    &=\frac{1}{N_0}\sum_{p=1}^2\sum_{i=1}^N\left((\widehat{\mu}(T(W_i),X_i)-Y_i)\ind(i \in \mathcal{D}_0\cap\mathcal{E}_0)+\frac{K_M(i)}{M}(Y_{i}-\widehat{\mu}(W_{i},X_{i}))\ind(i \in \mathcal{D}_1\cap\mathcal{E}_1)\right)
 \end{align*}
 where $\widehat{\mu}$ is the series estimator of $\mu$. As in \cite{abadie2011bias}, we make the following assumption:
 \begin{assumption}\label{ass:5}
     (i) 
 \end{assumption}
+\begin{assumption}\label{ass:6}
+    (i) 
+\end{assumption}
 For the bias-corrected estimator, we have the following theorem:
 \begin{theorem}\label{thm:1} 
-Assume $M=O(N^v)$ for some $v<1/2$ and $M\to\infty$ as $N\to\infty$. Under Assumption \ref{ass:1} to \ref{ass:4} and Assumption \ref{ass:5}, we have
+Assume $M=O(N^v)$ for some $v<1/2$ and $M\to\infty$ as $N\to\infty$. (i) Under Assumption \ref{ass:1} to \ref{ass:4} and Assumption \ref{ass:5}, we have
 \begin{align}
-    \sqrt{N}(\widehat{\theta}_{bc}-\theta)\overset{d}{\to} N(0,\sigma^2)   
+    \sqrt{N}(\widehat{\theta}_{bc}-\theta)\overset{d}{\to} N(0,\sigma^2).   
 \end{align}
-Also, there's a consistent variance estimator
-\begin{align}
-    \widehat{\sigma}^2=&\frac{N}{N_0^2}\sum_{i\in \mathcal{D}_0}(\widehat{\mu}(T(W_i),X_i)-\widehat{\mu}(W_i,X_i))-\widehat{\theta})^2\\&+\frac{N}{N_0^2}\left(\sum_{i\in\mathcal{D}_0}\widehat{\sigma}^2(W_i,X_i)+\sum_{i\in\mathcal{D}_1}\widehat{\sigma}^2(W_i,X_i)\frac{K_M^2(i)}{M^2}-2\sum_{i\in\mathcal{D}_0\cap\mathcal{D}_1}\widehat{\sigma}^2(W_i,X_i)\frac{K_M(i)}{M}\right)
-\end{align}
+(ii) Furthermore, under Assumption \ref{ass:6}, there's a consistent variance estimator for $\sigma^2$:
+\begin{align*}
+    \widehat{\sigma}^2=\frac{1}{N_0}\sum_{p=1}^2\sum_{i=1}^n\left[(\widehat{\mu}(T(W_i),X_i)-Y_i-\widehat{\theta}_{bc})\ind(i\in \mathcal{D}_0\cap\mathcal{E}_0)+(Y_i-\widehat{\mu}(W_i,X_i))\ind(i\in \mathcal{D}_1\cap\mathcal{E}_1)\right]^2
+\end{align*}
+%\begin{align}
+    %\widehat{\sigma}^2=&\frac{N}{N_0^2}\sum_{i\in \mathcal{D}_0}(\widehat{\mu}(T(W_i),X_i)-\widehat{\mu}(W_i,X_i))-\widehat{\theta})^2\\&+\frac{N}{N_0^2}\left(\sum_{i\in\mathcal{D}_0}\widehat{\sigma}^2(W_i,X_i)+\sum_{i\in\mathcal{D}_1}\widehat{\sigma}^2(W_i,X_i)\frac{K_M^2(i)}{M^2}-2\sum_{i\in\mathcal{D}_0\cap\mathcal{D}_1}\widehat{\sigma}^2(W_i,X_i)\frac{K_M(i)}{M}\right)
+%\end{align}
 \end{theorem}
 \begin{remark}
     Completely nonparametric. This estimator actually achieves the efficiency bound.
@@ -596,23 +602,21 @@ Finally, since $D(P)(O)\in\mathscr{S}$ holds, $D(P)(O)$ is the efficient curve o
 \end{proof}
 
 
-\begin{proof}[Proof of Theorem \ref{thm:1}]
-    For each sample splitting scheme, let $\mathcal{E}_0$ be the set where $W$ is changed and let $\mathcal{E}_1$ be the set where $W$ is fixed. Then, the estimator obtained with the two complementary sample splitting schemes can be decomposed as follows:
+\begin{proof}[Proof of Theorem \ref{thm:1}(i)]
+    For each sample splitting scheme, let $\mathcal{E}_0$ be the set where $W$ is changed and let $\mathcal{E}_1$ be the set where $W$ is fixed. Then, the estimator obtained with the two complementary sample splitting schemes satisfies $N^{1/2}(\widehat{\theta}_{bc}-\theta)=T_1+T_2+T_3,$ where
     \begin{align*}
-        &N^{1/2}(\widehat{\theta}_{bc}-\theta)\\
-        =&\frac{N^{1/2}}{N_0}\sum_{p=1}^2\sum_{i\in \mathcal{D}_0\cap\mathcal{E}_0}\frac{1}{M}\sum_{j\in\mathcal{J}_M(i)}\{[\widehat{\mu}(T(W_i),X_i)-\mu(T(W_i),X_i)]-[\widehat{\mu}(W_j,X_j)-\mu(W_j,X_j)]\}\\
-        &+\frac{N^{1/2}}{N_0}\sum_{p=1}^2\sum_{i\in \mathcal{D}_0\cap\mathcal{E}_0}(\mu(T(W_i),X_i)-\mu(W_i,X_i)-\theta)\\
-        &+\frac{N^{1/2}}{N_0}\sum_{p=1}^2\sum_{i=1}^N(\ind(i\in\mathcal{D}_1\cap\mathcal{E}_1)r(W_i,X_i)-\ind(i\in\mathcal{D}_0\cap\mathcal{E}_0))\epsilon_i\\
-        &+\frac{N^{1/2}}{N_0}\sum_{p=1}^2\sum_{i=1}^N\ind(i\in\mathcal{D}_1\cap\mathcal{E}_1)(\frac{K_M(i)}{M}-r(W_i,X_i))\epsilon_i.
+        T_1=&\frac{N^{1/2}}{N_0}\sum_{p=1}^2\sum_{i=1}^N\left((\widehat{\mu}(T(W_i),X_i)-Y_i)\ind(i \in \mathcal{D}_0\cap\mathcal{E}_0)+\frac{K_M(i)}{M}(Y_{i}-\widehat{\mu}(W_{i},X_{i}))\ind(i \in \mathcal{D}_1\cap\mathcal{E}_1)\right)\\
+        &-\left((\mu(T(W_i),X_i)-Y_i)\ind(i \in \mathcal{D}_0\cap\mathcal{E}_0)+\frac{K_M(i)}{M}(Y_{i}-\mu(W_{i},X_{i}))\ind(i \in \mathcal{D}_1\cap\mathcal{E}_1)\right)\\
+        =&\frac{N^{1/2}}{N_0}\sum_{p=1}^2\sum_{i\in \mathcal{D}_0\cap\mathcal{E}_0}\frac{1}{M}\sum_{j\in\mathcal{J}_M(i)}\{[\widehat{\mu}(T(W_i),X_i)-\mu(T(W_i),X_i)]-[\widehat{\mu}(W_j,X_j)-\mu(W_j,X_j)]\},\\
+        T_2=&\frac{N^{1/2}}{N_0}\sum_{p=1}^2\sum_{i=1}^N\left((\mu(T(W_i),X_i)-Y_i)\ind(i \in \mathcal{D}_0\cap\mathcal{E}_0)+\frac{K_M(i)}{M}(Y_{i}-\mu(W_{i},X_{i}))\ind(i \in \mathcal{D}_1\cap\mathcal{E}_1)\right)\\
+        &-\left((\mu(T(W_i),X_i)-Y_i)\ind(i \in \mathcal{D}_0\cap\mathcal{E}_0)+r(W_i,X_i)(Y_{i}-\mu(W_{i},X_{i}))\ind(i \in \mathcal{D}_1\cap\mathcal{E}_1)\right)\\
+        =&\frac{N^{1/2}}{N_0}\sum_{p=1}^2\sum_{i=1}^N\ind(i\in\mathcal{D}_1\cap\mathcal{E}_1)(\frac{K_M(i)}{M}-r(W_i,X_i))\epsilon_i,\\
+        T_3=&\frac{N^{1/2}}{N_0}\sum_{p=1}^2\sum_{i=1}^N\left((\mu(T(W_i),X_i)-Y_i-\theta)\ind(i \in \mathcal{D}_0\cap\mathcal{E}_0)+r(W_i,X_i)(Y_{i}-\mu(W_{i},X_{i}))\ind(i \in \mathcal{D}_1\cap\mathcal{E}_1)\right)\\
+        =&\frac{N^{1/2}}{N_0}\sum_{i=1}^N\left((\mu(T(W_i),X_i)-Y_i-\theta)\ind(i \in \mathcal{D}_0)+r(W_i,X_i)(Y_{i}-\mu(W_{i},X_{i}))\ind(i \in \mathcal{D}_1)\right).
     \end{align*}
-    Among the four terms, notice that the middle two terms are asymptotically independent, we only need to prove the following four statements:
-        \begin{align}
-            &\frac{N^{1/2}}{N_0}\sum_{p=1}^2\sum_{i\in \mathcal{D}_0\cap\mathcal{E}_0}\frac{1}{M}\sum_{j\in\mathcal{J}_M(i)}\{[\widehat{\mu}(T(W_i),X_i)-\mu(T(W_i),X_i)]-[\widehat{\mu}(W_j,X_j)-\mu(W_j,X_j)]\}=o_P(1)\label{eq:thm1.1}\\
-            &\frac{N^{1/2}}{N_0}\sum_{p=1}^2\sum_{i\in \mathcal{D}_0\cap\mathcal{E}_0}(\mu(T(W_i),X_i)-\mu(W_i,X_i)-\theta)\overset{d}{\to}N(0,\sigma_1^2)\label{eq:thm1.2}\\
-            &\frac{N^{1/2}}{N_0}\sum_{p=1}^2\sum_{i=1}^N(\ind(i\in\mathcal{D}_1\cap\mathcal{E}_1)r(W_i,X_i)-\ind(i\in\mathcal{D}_0\cap\mathcal{E}_0))\epsilon_i\overset{d}{\to}N(0,\sigma_2^2).\label{eq:thm1.3}\\ 
-            &\frac{N^{1/2}}{N_0}\sum_{p=1}^2\sum_{i=1}^N\ind(i\in\mathcal{D}_1\cap\mathcal{E}_1)(\frac{K_M(i)}{M}-r(W_i,X_i))\epsilon_i=o_P(1)\label{eq:thm1.4}  
-        \end{align}
-    To prove \eqref{eq:thm1.1}, we follow the proof of Lemma C.3 in \cite{lin2023estimation}. Suppose $j_m(i)$ is the $m-th$ nearest neighbor of i. Suppose $U_{m,i}=(W_{j_m(i)},X_{j_m(i)})-(T(W_i),X_i)$. Suppose $\partial^t$ and $U_{m,i}^t$ can be defined with vector t, where t indicates the order of each variable/component. Suppose $\Lambda_{\ell}$ is the set of all nonnegative integer vectors whose sum is $\ell$. Let $k_w+k_x=d$ and $k=\lfloor d/2\rfloor+1$. From Tyler expansion, we know that 
+    Among the four terms, notice that the middle two terms are asymptotically independent, we only need to prove $T_1=o_P(1)$, $T_2=o_P(1)$ and $T_3\overset{d}{\to}N(0,\sigma^2).$
+
+    To prove $T_1=o_P(1)$, we follow the proof of Lemma C.3 in \cite{lin2023estimation}. Suppose $j_m(i)$ is the $m-th$ nearest neighbor of i. Suppose $U_{m,i}=(W_{j_m(i)},X_{j_m(i)})-(T(W_i),X_i)$. Suppose $\partial^t$ and $U_{m,i}^t$ can be defined with vector t, where t indicates the order of each variable/component. Suppose $\Lambda_{\ell}$ is the set of all nonnegative integer vectors whose sum is $\ell$. Let $k_w+k_x=d$ and $k=\lfloor d/2\rfloor+1$. From Tyler expansion, we know that 
 \[\left| \mu (W_{j_m(i)},X_{j_m(i)}) - \mu (T(W_i),X_i) - \sum_{\ell=1}^{k-1} \frac{1}{\ell!} \sum_{t \in \Lambda_\ell} \partial^t \mu (T(W_i),X_i) U_{m,i}^t \right| \leq \max_{t \in \Lambda_k} \left\| \partial^t \mu \right\|_\infty \frac{1}{k!} \sum_{t \in \Lambda_k} \left\| U_{m,i} \right\|^k,\]
 \[\left| \hat{\mu} (W_{j_m(i)},X_{j_m(i)}) - \hat{\mu} (T(W_i),X_i) - \sum_{\ell=1}^{k-1} \frac{1}{\ell!} \sum_{t \in \Lambda_\ell} \partial^t \hat{\mu} (T(W_i),X_i) U_{m,i}^t \right| \leq \max_{t \in \Lambda_k} \left\| \partial^t \hat{\mu} \right\|_\infty \frac{1}{k!} \sum_{t \in \Lambda_k} \left\| U_{m,i} \right\|^k,\]
 and
@@ -631,11 +635,8 @@ Therefore, with the assumptions on the convergence rate of $\hat{\mu}$ and the d
 =& N^{1/2}\left(O_p(1)O_p\left(\left(\frac{M}{N_1}\right)^{k/d}\right) + \max_{\ell \in [k-1]} O_p(n^{-\gamma_{\ell}}) O_p\left(\left(\frac{M}{N_1}\right)^{\ell/d}\right)\right)\\
 =& N^{1/2}O_p\left(\left(\frac{M}{N_1}\right)^{k/d} + \max_{\ell \in [k-1]}n^{-\gamma_{\ell}} \left(\frac{M}{N_1}\right)^{\ell/d}\right)=o_P(1).
 \end{align*}
-As for \eqref{eq:thm1.2} and \eqref{eq:thm1.3}, it's easy to verify that
-\[\eqref{eq:thm1.2}=\frac{N^{1/2}}{N_0}\sum_{i=1}^N\ind(i\in\mathcal{D}_0)(\mu(T(W_i),X_i)-\mu(W_i,X_i)-\theta)\overset{d}{\to}N(0,\sigma_1^2)\]
-and 
-\[\eqref{eq:thm1.3}=\frac{N^{1/2}}{N_0}\sum_{i=1}^N(\ind(i\in\mathcal{D}_1)r(W_i,X_i)-\ind(i\in\mathcal{D}_0\cap\mathcal{E}_0))\epsilon_i\overset{d}{\to}N(0,\sigma_2^2).\]
-As for \eqref{eq:thm1.4}, similar to the proof of Lemma C.1 in \cite{lin2023estimation}, we can apply the Linderberg-Feller central limit theorem to prove that 
+
+As for $T_2$, similar to the proof of Lemma C.1 in \cite{lin2023estimation}, we can apply the Linderberg-Feller central limit theorem to prove that 
 \[\frac{N^{1/2}}{VN_0}\sum_{i=1}^N\sum_{p=1}^2\ind(i\in\mathcal{D}_1\cap\mathcal{E}_1)(\frac{K_M(i)}{M}-r(W_i,X_i))\epsilon_i\overset{d}{\to}N(0,1),\]
 where
 \begin{align*}
@@ -644,7 +645,52 @@ where
 \end{align*}
 From Theorem B.2 in \cite{lin2023estimation}, we know that
 \[EV\leq \frac{NN_1C}{N_0^2}E\left(\frac{K_M(i)}{M}-r(W_i,X_i)\right)^2=o\left(\frac{NN_1C}{N_0^2}\right)=o(1),\]
-where C is the upper bound of $\sigma^2(W_i,X_i)$. Therefore, \eqref{eq:thm1.4}=$O_P(EV)=o_P(1).$ 
+where C is the upper bound of $\sigma^2(W_i,X_i)$. Therefore, $T_2=o_P(1).$ 
+
+As for $T_3$, it's easy to verify that
+\[T_3\overset{d}{\to}N(0,\sigma^2).\] Combining the three results yields the asymptotic normality.
+\end{proof}
+
+\begin{proof}[Proof of Theorem \ref{thm:1}(ii)]
+First, we have the decomposition $\hat{\sigma}^2 - \sigma^2 = S_1 + S_2 + S_3 + S_4$, where
+
+\begin{align*}
+S_1=&\frac{1}{N_0}\sum_{p=1}^2\sum_{i=1}^N\left[(\mu(T(W_i),X_i)-Y_i-\theta)\ind(i \in \mathcal{D}_0\cap\mathcal{E}_0)+r(W_i,X_i)(Y_{i}-\mu(W_{i},X_{i}))\ind(i \in \mathcal{D}_1\cap\mathcal{E}_1)\right]^2-\sigma^2,\\
+S_2=&\frac{1}{N_0}\sum_{p=1}^2\sum_{i=1}^N\left[(\mu(T(W_i),X_i)-Y_i-\widehat{\theta}_{bc})\ind(i \in \mathcal{D}_0\cap\mathcal{E}_0)+r(W_i,X_i)(Y_{i}-\mu(W_{i},X_{i}))\ind(i \in \mathcal{D}_1\cap\mathcal{E}_1)\right]^2\\
+&-\left[(\mu(T(W_i),X_i)-Y_i-\theta)\ind(i \in \mathcal{D}_0\cap\mathcal{E}_0)+r(W_i,X_i)(Y_{i}-\mu(W_{i},X_{i}))\ind(i \in \mathcal{D}_1\cap\mathcal{E}_1)\right]^2,\\
+S_3=&\frac{1}{N_0}\sum_{p=1}^2\sum_{i=1}^N\left[(\mu(T(W_i),X_i)-Y_i-\widehat{\theta}_{bc})\ind(i \in \mathcal{D}_0\cap\mathcal{E}_0)+\frac{K_M(i)}{M}(Y_{i}-\mu(W_{i},X_{i}))\ind(i \in \mathcal{D}_1\cap\mathcal{E}_1)\right]^2\\
+&-\left[(\mu(T(W_i),X_i)-Y_i-\widehat{\theta}_{bc})\ind(i \in \mathcal{D}_0\cap\mathcal{E}_0)+r(W_i,X_i)(Y_{i}-\mu(W_{i},X_{i}))\ind(i \in \mathcal{D}_1\cap\mathcal{E}_1)\right]^2,\\
+S_4=&\frac{1}{N_0}\sum_{p=1}^2\sum_{i=1}^N\left[(\widehat{\mu}(T(W_i),X_i)-Y_i)\ind(i \in \mathcal{D}_0\cap\mathcal{E}_0)+\frac{K_M(i)}{M}(Y_{i}-\widehat{\mu}(W_{i},X_{i})-\widehat{\theta}_{bc})\ind(i \in \mathcal{D}_1\cap\mathcal{E}_1)\right]^2\\
+&-\left[(\mu(T(W_i),X_i)-Y_i-\widehat{\theta}_{bc})\ind(i \in \mathcal{D}_0\cap\mathcal{E}_0)+\frac{K_M(i)}{M}(Y_{i}-\mu(W_{i},X_{i}))\ind(i \in \mathcal{D}_1\cap\mathcal{E}_1)\right]^2.
+\end{align*}
+
+With law of large numbers we can easily show that $S_1=o_P(1)$, and also we have
+\[\frac{1}{N_0}\sum_{p=1}^2\sum_{i=1}^N\left[(\mu(T(W_i),X_i)-Y_i-\theta)\ind(i \in \mathcal{D}_0\cap\mathcal{E}_0)+r(W_i,X_i)(Y_{i}-\mu(W_{i},X_{i}))\ind(i \in \mathcal{D}_1\cap\mathcal{E}_1)\right]^2=O_P(1).\]
+
+To bound the following three terms, we introduce the following lemma: Suppose there are random sequences $\{A_n\}$ and $\{B_n\}$, if \(\sum_{n=1}^NA_n^2=O_P(1)\) and \(\sum_{n=1}^N(A_n-B_n)^2=o_P(1)\), then \(\sum_{n=1}^N(B_n^2-A_n^2)=o_P(1).\) This holds because 
+\begin{align*}
+    \left[\sum_{n=1}^N(B_n^2-A_n^2)\right]^2\leq& \sum_{n=1}^n(B_n+A_n)^2\sum_{n=1}^N(B_n-A_n)^2\\
+    \leq& \sum_{n=1}^N2\left[(2A_n)^2+(B_n-A_n)^2\right]\sum_{n=1}^N(B_n-A_n)^2\\
+    =&(O_P(1)+o_P(1))\times o_P(1)=o_P(1).
+\end{align*}
+We can find that $S_2$, $S_3$ and $S_4$ are all defined in the form $\sum_{n=1}^N(B_n^2-A_n^2)$, and we denote $B_n$ and $A_n$ as the terms in the definition in the following analysis.
+
+In the case of $S_2$, $\sum_{n=1}^N(A_n-B_n)^2$ takes the value 
+\[N_0\left(\frac{\widehat{\theta}_{bc}-\theta}{\sqrt{N_0}}\right)^2=(\widehat{\theta}_{bc}-\theta)^2=o_P(1),\]
+and $\sum_{n=1}^NA_n^2=O_P(1)$ is ensured by the analysis of $S_1$, so we have $S_2=o_P(1)$. Also, we have
+\[\frac{1}{N_0}\sum_{p=1}^2\sum_{i=1}^N\left[(\mu(T(W_i),X_i)-Y_i-\widehat{\theta}_{bc})\ind(i \in \mathcal{D}_0\cap\mathcal{E}_0)+r(W_i,X_i)(Y_{i}-\mu(W_{i},X_{i}))\ind(i \in \mathcal{D}_1\cap\mathcal{E}_1)\right]^2=O_P(1).\]
+
+In the case of $S_3$, $\sum_{n=1}^N(A_n-B_n)^2$ takes the value 
+\[\frac{1}{N_0}\sum_{i=1}^N \ind(i\in\mathcal{D}_1)(\frac{K_M(i)}{M}-r(W_i,X_i))^2\epsilon_i^2,\] 
+which is $o_P(1)$ due to the analysis of $EV$ in the proof of Theorem \ref{thm:1}(i). Since $\sum_{n=1}^NA_n^2=O_P(1)$ is ensured by the analysis of $S_2$, we have $S_3=o_P(1)$.
+Also, we have 
+\[\frac{1}{N_0}\sum_{p=1}^2\sum_{i=1}^N\left[(\mu(T(W_i),X_i)-Y_i-\widehat{\theta}_{bc})\ind(i \in \mathcal{D}_0\cap\mathcal{E}_0)+\frac{K_M(i)}{M}(Y_{i}-\mu(W_{i},X_{i}))\ind(i \in \mathcal{D}_1\cap\mathcal{E}_1)\right]^2=O_P(1)\]
+
+In the case of $S_4$, following the notation in the analysis of $T_1$ in the proof of Theorem \ref{thm:1}(i), $\sum_{n=1}^N(A_n-B_n)^2$ here takes the value
+\begin{align*}
+    &\frac{1}{N_0}\sum_{p=1}^2\sum_{i=1}^N\ind(i\in \mathcal{D}_0\cap\mathcal{E}_0)[\widehat{\mu}(T(W_i),X_i)-\mu(T(W_i),X_i)]^2+\ind(i\in \mathcal{D}_1\cap\mathcal{E}_1)[\mu(W_i,X_i)-\widehat{\mu}(W_i,X_i)]^2.
+\end{align*}
+Since $\|\widehat{\mu}-\mu\|_\infty=o_P(1)$, $\sum_{n=1}^N(A_n-B_n)^2=o_P(1)$. Furthermore, since $\sum_{n=1}^NA_n^2=O_P(1)$ is ensured by the analysis of $S_3$, we have $S_4=o_P(1)$. Combining the bounds of the four terms yields the consistency of the variance estimator.
 \end{proof}
 
 \begin{proof}[Proof of Theorem \ref{thm:2}]
